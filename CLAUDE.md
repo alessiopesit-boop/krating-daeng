@@ -90,40 +90,60 @@ Crea sempre un branch dal `main` aggiornato. Prefissi convenzionali (servono sol
 
 Esempi: `feat/testimonial-section`, `fix/pdp-price-recalc`, `chore/bump-angular-19.3`.
 
-### Commit: Conventional Commits
+### Commit: Conventional Commits + body discorsivo
 
-Tutti i commit seguono [Conventional Commits](https://www.conventionalcommits.org/). Il **subject** una riga sola, in inglese o italiano scegli tu (ma uniforma). Il **body** lo scrivi solo dove serve contesto (perche', come, edge case). I body finiscono nella sezione "Dettagli" della GitHub Release, gli altri solo nei bullet.
+Tutti i commit (e i titoli delle PR) seguono [Conventional Commits](https://www.conventionalcommits.org/).
 
-Tipi accettati: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `ci`, `build`, `style`, `revert`.
+- Il **subject** e' la riga breve e tecnica, sempre nel formato `tipo(scope opzionale): cosa`. Serve a release-please per capire il tipo di cambio (bump version) e raggruppare nelle note. **Non appare letteralmente** nella GitHub Release.
+- Il **body** e' una **descrizione discorsiva breve**, di solito 1-3 frasi. **E' quello che apparira' nella GitHub Release**, sotto la sezione del tipo (Novita', Correzioni, ecc.). Scrivilo dal punto di vista di chi legge la release: cosa cambia per l'utente, cosa fa la modifica, quando serve saperlo. Niente jargon di file/funzioni a meno che non sia importante.
 
-Esempio di commit con body:
+Tipi e mapping:
+
+| Tipo | Bump | Appare nella Release? | Etichetta |
+|---|---|---|---|
+| `feat:` | MINOR | si | Novita' |
+| `fix:` | PATCH | si | Correzioni |
+| `perf:` | PATCH | si | Performance |
+| `refactor:` | PATCH | si | Refactor |
+| `chore:` | nessuno | no | (storia git) |
+| `docs:` | nessuno | no | (storia git) |
+| `test:` | nessuno | no | (storia git) |
+| `ci:`, `build:`, `style:` | nessuno | no | (storia git) |
+| `feat!:` o `BREAKING CHANGE:` nel body | MAJOR | si, in cima | Modifiche incompatibili |
+
+Esempio di commit per una nuova feature (caso tipico, raccomandato):
 
 ```
-feat(home): aggiungi sezione testimonial
+feat(home): aggiunta sezione testimonial
 
-Tre testimonial citati da palestre Muay Thai, in carosello.
-Caricamento immagini lazy. Layout responsivo.
+Aggiunge una sezione testimonial sulla home con tre citazioni
+da palestre Muay Thai. Le immagini caricano in lazy load e il
+layout si adatta al mobile.
 ```
 
-Esempio senza body (cambi piccoli e ovvi):
+Cosa esce nella GitHub Release:
 
 ```
-fix(footer): typo nel copyright
+## Novita'
+
+Aggiunge una sezione testimonial sulla home con tre citazioni
+da palestre Muay Thai. Le immagini caricano in lazy load e il
+layout si adatta al mobile.
 ```
 
-Mapping ai bump di versione (lo gestisce release-please, non tu):
+Notare: nessun `feat(home): aggiunta sezione testimonial` visibile.
 
-- `feat:` => MINOR (es. `1.0.0` a `1.1.0`)
-- `fix:` => PATCH (es. `1.0.0` a `1.0.1`)
-- Body con linea `BREAKING CHANGE: ...` oppure `feat!:` / `fix!:` con `!` => MAJOR (es. `1.x` a `2.0.0`)
-- `chore`, `docs`, `refactor`, `test`, `ci`, `build`, `style`, `perf`: non bumpano, non aprono Release PR, non finiscono nelle note di release (ma restano nella storia git).
+Body **consigliato sempre** per `feat:`, `fix:`, `perf:`, `refactor:`. Se proprio manca (cambio piccolissimo e ovvio), il workflow fa un fallback: usa il subject ripulito del prefisso e capitalizzato. Esempio: `fix(footer): typo nel copyright` senza body diventa nella Release "Typo nel copyright.". Funziona ma e' meno bello: meglio scrivere il body.
 
-### Merge
+### Merge: squash sempre
 
-Strategia per le PR feature/fix: **Squash and merge**. Ogni PR diventa un singolo commit su `main`, con il titolo della PR come subject. Quindi:
+Strategia obbligatoria per le PR: **Squash and merge** (la branch protection forza questa scelta).
 
-- Il **titolo della PR** deve essere a sua volta un Conventional Commit (`feat(...): ...`). Il bot release-please lo prende da li'.
-- Se la PR ha un body con `## Dettagli` o paragrafi descrittivi, GitHub di default li include come body del commit squashato. release-please usera' quel body per la sezione "Dettagli" della Release.
+- Il **titolo della PR** = subject del commit squashato = Conventional Commit. release-please lo legge da li'.
+- Il **body della PR** = body del commit squashato = descrizione discorsiva. La Release lo prende da qui.
+- Il branch viene auto-cancellato dopo il merge (impostato via `setup-repo.yml`).
+
+Quindi quando apri la PR cura titolo **e** descrizione: insieme diventano il commit, da cui release-please costruisce la release. La PR e' la fonte di verita'.
 
 ## Versioning
 
@@ -142,8 +162,8 @@ Cosa succede in pratica:
 3. Quella PR resta aperta e si auto-aggiorna ogni volta che mergi su `main` un nuovo commit rilasciabile.
 4. Quando vuoi rilasciare, **mergi la Release PR**. Solo allora release-please:
    - crea il tag git (`vX.Y.Z` con la `v`);
-   - crea la GitHub Release con il body preso dal CHANGELOG;
-   - lo step "Dettagli" del workflow appende in coda al body della Release un blocco con i body dei commit di questo ciclo che avevano un body (ordine: stesso dei bullet in cima).
+   - crea la GitHub Release;
+   - lo step finale del workflow **riscrive il body della Release**: legge i commit del range, prende i body discorsivi (con fallback al subject ripulito se body assente), li raggruppa in sezioni (Novita', Correzioni, Performance, Refactor, Modifiche incompatibili) e sovrascrive il body iniziale generato da release-please. Risultato: una release "umana", senza subject letterali Conventional Commits.
 
 Cose che **non** devi fare a mano (rispetto a prima):
 
