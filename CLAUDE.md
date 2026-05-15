@@ -137,13 +137,30 @@ Body **consigliato sempre** per `feat:`, `fix:`, `perf:`, `refactor:`. Se propri
 
 ### Merge: squash sempre
 
-Strategia obbligatoria per le PR: **Squash and merge** (la branch protection forza questa scelta).
+Strategia per le PR: **Squash and merge**.
 
 - Il **titolo della PR** = subject del commit squashato = Conventional Commit. release-please lo legge da li'.
 - Il **body della PR** = body del commit squashato = descrizione discorsiva. La Release lo prende da qui.
-- Il branch viene auto-cancellato dopo il merge (impostato via `setup-repo.yml`).
 
 Quindi quando apri la PR cura titolo **e** descrizione: insieme diventano il commit, da cui release-please costruisce la release. La PR e' la fonte di verita'.
+
+### Setup repo da fare a mano (una volta sola)
+
+Le impostazioni qui sotto non si possono applicare via workflow di GitHub Actions, perche' il `GITHUB_TOKEN` automatico **non ha permessi `administration`** sul repository. Servirebbe un PAT personale dedicato. Per semplicita' si fanno a mano dal browser, una sola volta, all'apertura del repo:
+
+1. `Settings > General > Pull Requests` (https://github.com/alessiopesit-boop/krating-daeng/settings):
+   - lascia attivo **solo** `Allow squash merging` (togli `Allow merge commits` e `Allow rebase merging`);
+   - sotto la checkbox squash appare un dropdown `Default commit message`: scegli `Pull request title and description`;
+   - piu' in basso: spunta `Automatically delete head branches`.
+2. `Settings > Branches > Add classic branch protection rule` con branch name `main`:
+   - `Require a pull request before merging` (review count = 0 va bene, sei da solo);
+   - `Require linear history`;
+   - lascia disattivate `Allow force pushes` e `Allow deletions`.
+3. `Settings > Actions > General > Workflow permissions`:
+   - `Read and write permissions`;
+   - spunta `Allow GitHub Actions to create and approve pull requests` (serve a release-please per aprire la Release PR).
+
+Una volta fatti questi 3 passaggi, il repo e' configurato in modo coerente con tutto il resto.
 
 ## Versioning
 
