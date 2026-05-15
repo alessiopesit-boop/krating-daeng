@@ -74,6 +74,32 @@ npm test           # Karma + Jasmine (non sono presenti spec custom, solo quelli
 
 Non e' configurato `ng e2e`, non c'e' un comando di lint.
 
+## Versioning
+
+Schema [SemVer](https://semver.org): `MAJOR.MINOR.PATCH`.
+
+- **PATCH** (es. `1.0.0` a `1.0.1`): bugfix, refactor invisibili, tweak di stile.
+- **MINOR** (es. `1.0.x` a `1.1.0`): pagine o feature nuove, compatibili con quanto esiste.
+- **MAJOR** (es. `1.x` a `2.0.0`): rottura visibile (es. cambio routing da hash a path, rebrand, rimozione di una pagina pubblicata).
+
+Fonte di verita' della versione: campo `version` in `package.json`. Da li' il footer la legge a build-time e la mostra sul sito (utile a capire al volo cosa c'e' online). Non duplicarla in altre costanti del codice.
+
+### Procedura per rilasciare una nuova versione
+
+1. Aggiorna il numero in `package.json` (e di conseguenza `package-lock.json`, `npm install` lo risincronizza).
+2. Aggiungi una nuova sezione in `CHANGELOG.md` (formato Keep a Changelog): muovi le voci che erano in `## [Unreleased]` sotto la nuova versione con la data, e aggiorna i link a fondo file.
+3. Commit (messaggio tipo `Release vX.Y.Z`) e push su `main`. Questo fa partire il workflow `deploy.yml`, che pubblica subito il nuovo sito.
+4. Tag annotato sul commit di release e push del tag:
+   ```bash
+   git tag -a vX.Y.Z -m "Release vX.Y.Z"
+   git push --tags
+   ```
+   Il push del tag fa partire `release.yml`, che crea la GitHub Release con note auto-generate dai commit dal tag precedente.
+
+Convenzioni:
+- Tag con prefisso `v` (`v1.0.0`, non `1.0.0`). Il workflow `release.yml` matcha `v*.*.*`.
+- Tag con suffisso (`v1.1.0-beta.1`, `v2.0.0-rc.1`) vengono pubblicati come prerelease automaticamente.
+
 ## Deploy: GitHub Pages
 
 Pubblicazione automatica via GitHub Actions, workflow in `.github/workflows/deploy.yml`. Ad ogni push su `main` (o lancio manuale da "Actions") il sito viene buildato e pubblicato su `https://alessiopesit-boop.github.io/krating-daeng/`.

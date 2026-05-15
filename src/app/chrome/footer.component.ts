@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TPipe } from '../core/lang.pipe';
 import { LogoComponent } from '../illustrations/logo.component';
+import { version as APP_VERSION } from '../../../package.json';
 
 @Component({
   selector: 'sf-footer',
@@ -60,9 +61,11 @@ import { LogoComponent } from '../illustrations/logo.component';
       </div>
       <div class="footer-base">
         <span>© 1974—2026 Suea Fai · T.C. Pharmaceutical (fictional)</span>
-        <span>กระทิงไฟ · {{ 'Bangkok ↔ Milano' | t }}</span>
+        <span>กระทิงไฟ · {{ 'Bangkok ↔ Milano' | t }} · v{{ appVersion }}</span>
       </div>
     </footer>
   `,
 })
-export class FooterComponent {}
+export class FooterComponent {
+  readonly appVersion = APP_VERSION;
+}
