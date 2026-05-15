@@ -1,28 +1,114 @@
-name: Release on tag
+name: Release please
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [main]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  release:
+  release-please:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout (full history for auto-notes)
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      # Da qui in poi: solo se release-please ha effettivamente creato
+      # una nuova GitHub Release (cioe' la Release PR e' stata mergiata).
+      - name: Checkout (full history per leggere i commit della release)
+        if: ${{ steps.release.outputs.release_created }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          generate_release_notes: true
-          # I tag con suffisso (es. v1.1.0-beta.1) sono considerati prerelease.
-          prerelease: ${{ contains(github.ref_name, '-') }}
-          draft: false
+      - name: Aggiungi sezione "Dettagli" alla GitHub Release
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          RELEASE_ID: ${{ steps.release.outputs.id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          git fetch --tags --quiet
+          # Trova il tag precedente in ordine semver decrescente; se non esiste,
+          # consideriamo l'intera storia fino a TAG_NAME.
+          PREV_TAG=$(git tag --sort=-version:refname | grep -v "^${TAG_NAME}$" | head -1 || true)
+          if [ -z "${PREV_TAG}" ]; then
+            RANGE="${TAG_NAME}"
+          else
+            RANGE="${PREV_TAG}..${TAG_NAME}"
+          fi
+          echo "Range commit: ${RANGE}"
+
+          python3 - "$RANGE" <<'PY'
+          import json, os, subprocess, sys, urllib.request
+
+          rng = sys.argv[1]
+          # Formato: SHA <NUL> subject <NUL> body <RS>
+          raw = subprocess.check_output(
+              ["git", "log", "--format=%H%x00%s%x00%b%x1e", rng],
+              text=True,
+          )
+          sections = []
+          for entry in raw.split("\x1e"):
+              entry = entry.lstrip("\n")
+              if not entry.strip():
+                  continue
+              parts = entry.split("\x00", 2)
+              if len(parts) < 3:
+                  continue
+              _sha, subject, body = parts
+              subject = subject.strip()
+              body = body.strip()
+              # Salta i commit di release-please (sono "chore(main): release X.Y.Z").
+              if subject.lower().startswith("chore(main): release"):
+                  continue
+              # Salta i commit senza body: l'utente ha scelto "body solo dove serve".
+              if not body:
+                  continue
+              sections.append((subject, body))
+
+          if not sections:
+              print("Nessun commit con body nel range, niente sezione Dettagli.")
+              sys.exit(0)
+
+          extra_lines = ["", "---", "", "## Dettagli", ""]
+          for subj, body in sections:
+              extra_lines.append(f"### {subj}")
+              extra_lines.append("")
+              extra_lines.append(body)
+              extra_lines.append("")
+          extra = "\n".join(extra_lines).rstrip() + "\n"
+
+          repo = os.environ["REPO"]
+          rid = os.environ["RELEASE_ID"]
+          token = os.environ["GH_TOKEN"]
+          api_base = f"https://api.github.com/repos/{repo}/releases/{rid}"
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+
+          # Leggi body attuale (lasciato da release-please) e appendi.
+          req = urllib.request.Request(api_base, headers=headers)
+          current = json.loads(urllib.request.urlopen(req).read())
+          new_body = (current.get("body") or "").rstrip() + "\n" + extra
+
+          patch = urllib.request.Request(
+              api_base,
+              data=json.dumps({"body": new_body}).encode(),
+              method="PATCH",
+              headers={**headers, "Content-Type": "application/json"},
+          )
+          urllib.request.urlopen(patch).read()
+          print(f"Aggiunti {len(sections)} dettagli alla Release {rid}.")
+          PY

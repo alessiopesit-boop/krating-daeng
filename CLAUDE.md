@@ -74,31 +74,92 @@ npm test           # Karma + Jasmine (non sono presenti spec custom, solo quelli
 
 Non e' configurato `ng e2e`, non c'e' un comando di lint.
 
+## Branching e Pull Request
+
+Flow stile GitHub Flow: niente push diretti su `main`, tutto passa da una PR.
+
+### Branch
+
+Crea sempre un branch dal `main` aggiornato. Prefissi convenzionali (servono solo a te per orientarti, non c'e' validazione automatica):
+
+- `feat/<slug>`: feature nuova rivolta all'utente.
+- `fix/<slug>`: bugfix.
+- `chore/<slug>`: lavori interni (build, CI, dipendenze, riordino).
+- `docs/<slug>`: modifiche solo a documentazione (incluso CLAUDE.md).
+- `refactor/<slug>`: refactor a comportamento invariato.
+
+Esempi: `feat/testimonial-section`, `fix/pdp-price-recalc`, `chore/bump-angular-19.3`.
+
+### Commit: Conventional Commits
+
+Tutti i commit seguono [Conventional Commits](https://www.conventionalcommits.org/). Il **subject** una riga sola, in inglese o italiano scegli tu (ma uniforma). Il **body** lo scrivi solo dove serve contesto (perche', come, edge case). I body finiscono nella sezione "Dettagli" della GitHub Release, gli altri solo nei bullet.
+
+Tipi accettati: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `perf`, `ci`, `build`, `style`, `revert`.
+
+Esempio di commit con body:
+
+```
+feat(home): aggiungi sezione testimonial
+
+Tre testimonial citati da palestre Muay Thai, in carosello.
+Caricamento immagini lazy. Layout responsivo.
+```
+
+Esempio senza body (cambi piccoli e ovvi):
+
+```
+fix(footer): typo nel copyright
+```
+
+Mapping ai bump di versione (lo gestisce release-please, non tu):
+
+- `feat:` => MINOR (es. `1.0.0` a `1.1.0`)
+- `fix:` => PATCH (es. `1.0.0` a `1.0.1`)
+- Body con linea `BREAKING CHANGE: ...` oppure `feat!:` / `fix!:` con `!` => MAJOR (es. `1.x` a `2.0.0`)
+- `chore`, `docs`, `refactor`, `test`, `ci`, `build`, `style`, `perf`: non bumpano, non aprono Release PR, non finiscono nelle note di release (ma restano nella storia git).
+
+### Merge
+
+Strategia per le PR feature/fix: **Squash and merge**. Ogni PR diventa un singolo commit su `main`, con il titolo della PR come subject. Quindi:
+
+- Il **titolo della PR** deve essere a sua volta un Conventional Commit (`feat(...): ...`). Il bot release-please lo prende da li'.
+- Se la PR ha un body con `## Dettagli` o paragrafi descrittivi, GitHub di default li include come body del commit squashato. release-please usera' quel body per la sezione "Dettagli" della Release.
+
 ## Versioning
 
-Schema [SemVer](https://semver.org): `MAJOR.MINOR.PATCH`.
+Schema [SemVer](https://semver.org): `MAJOR.MINOR.PATCH`. La fonte di verita' e' il campo `version` in `package.json` (e `.release-please-manifest.json`). Da li' il footer la legge a build-time e la mostra sul sito.
 
-- **PATCH** (es. `1.0.0` a `1.0.1`): bugfix, refactor invisibili, tweak di stile.
-- **MINOR** (es. `1.0.x` a `1.1.0`): pagine o feature nuove, compatibili con quanto esiste.
-- **MAJOR** (es. `1.x` a `2.0.0`): rottura visibile (es. cambio routing da hash a path, rebrand, rimozione di una pagina pubblicata).
+### Rilascio: lo fa release-please, non tu
 
-Fonte di verita' della versione: campo `version` in `package.json`. Da li' il footer la legge a build-time e la mostra sul sito (utile a capire al volo cosa c'e' online). Non duplicarla in altre costanti del codice.
+Il rilascio e' completamente automatizzato dal workflow `.github/workflows/release.yml`, che usa [release-please](https://github.com/googleapis/release-please).
 
-### Procedura per rilasciare una nuova versione
+Cosa succede in pratica:
 
-1. Aggiorna il numero in `package.json` (e di conseguenza `package-lock.json`, `npm install` lo risincronizza).
-2. Aggiungi una nuova sezione in `CHANGELOG.md` (formato Keep a Changelog): muovi le voci che erano in `## [Unreleased]` sotto la nuova versione con la data, e aggiorna i link a fondo file.
-3. Commit (messaggio tipo `Release vX.Y.Z`) e push su `main`. Questo fa partire il workflow `deploy.yml`, che pubblica subito il nuovo sito.
-4. Tag annotato sul commit di release e push del tag:
-   ```bash
-   git tag -a vX.Y.Z -m "Release vX.Y.Z"
-   git push --tags
-   ```
-   Il push del tag fa partire `release.yml`, che crea la GitHub Release con note auto-generate dai commit dal tag precedente.
+1. Mergi su `main` un commit `feat:` o `fix:` (qualunque commit "rilasciabile").
+2. release-please apre **automaticamente** una PR speciale tipo `chore(main): release X.Y.Z` che contiene:
+   - bump di `package.json` e `.release-please-manifest.json`;
+   - aggiornamento di `CHANGELOG.md` con i commit dell'ultimo ciclo, raggruppati per tipo (Features, Bug Fixes, ecc.).
+3. Quella PR resta aperta e si auto-aggiorna ogni volta che mergi su `main` un nuovo commit rilasciabile.
+4. Quando vuoi rilasciare, **mergi la Release PR**. Solo allora release-please:
+   - crea il tag git (`vX.Y.Z` con la `v`);
+   - crea la GitHub Release con il body preso dal CHANGELOG;
+   - lo step "Dettagli" del workflow appende in coda al body della Release un blocco con i body dei commit di questo ciclo che avevano un body (ordine: stesso dei bullet in cima).
 
-Convenzioni:
-- Tag con prefisso `v` (`v1.0.0`, non `1.0.0`). Il workflow `release.yml` matcha `v*.*.*`.
-- Tag con suffisso (`v1.1.0-beta.1`, `v2.0.0-rc.1`) vengono pubblicati come prerelease automaticamente.
+Cose che **non** devi fare a mano (rispetto a prima):
+
+- Bump di `package.json`: no, lo fa release-please.
+- Tag git: no, lo fa release-please.
+- Modifiche a `CHANGELOG.md`: no, lo riscrive release-please. Eccezione: se vuoi correggere un refuso o aggiungere una nota a posteriori, puoi farlo in una PR separata di tipo `docs:`.
+
+Modi di forzare la prossima versione (raramente serve):
+
+- Commenta nella Release PR con `Release-As: 1.5.0` (o `release-as: 1.5.0`) per forzare un numero di versione preciso.
+- `feat!:` o `BREAKING CHANGE:` in body di un commit forza un bump MAJOR.
+
+### Convenzioni tag
+
+- Prefisso `v` (`v1.0.0`, non `1.0.0`).
+- Suffisso (`v1.1.0-beta.1`) farebbe prerelease, ma con release-please base non si usa: per prerelease serve config dedicato (non attivo qui).
 
 ## Deploy: GitHub Pages
 
