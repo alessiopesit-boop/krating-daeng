@@ -74,6 +74,17 @@ npm test           # Karma + Jasmine (non sono presenti spec custom, solo quelli
 
 Non e' configurato `ng e2e`, non c'e' un comando di lint.
 
+## Deploy: GitHub Pages
+
+Pubblicazione automatica via GitHub Actions, workflow in `.github/workflows/deploy.yml`. Ad ogni push su `main` (o lancio manuale da "Actions") il sito viene buildato e pubblicato su `https://alessiopesit-boop.github.io/krating-daeng/`.
+
+Cose da sapere se lo modifichi:
+
+- Il build di produzione viene fatto con `--base-href=/krating-daeng/`: lo richiede il fatto che il sito vive su un sottopath del dominio `*.github.io`. Se cambia il nome del repo, va aggiornato anche qui.
+- L'output di Angular 19 con builder `application` finisce in `dist/krating-daeng/browser/`: e' la cartella caricata come artifact Pages.
+- Per sicurezza il workflow copia `index.html` in `404.html` e crea `.nojekyll`: cosi' i deep link funzionano anche se qualcuno togliesse `withHashLocation()`, e Pages non prova a passare i file tramite Jekyll.
+- Prima pubblicazione: in *Settings > Pages* del repo va scelto "Source: GitHub Actions" una volta sola.
+
 ## Vincoli e cose da non fare
 
 - **Non** introdurre RxJS observable per stato applicativo: usa signal/effect. RxJS resta ammesso solo dove serve a integrare API Angular che lo richiedono.
