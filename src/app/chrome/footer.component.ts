@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TPipe } from '../core/lang.pipe';
 import { LogoComponent } from '../illustrations/logo.component';
-import { version as APP_VERSION } from '../../../package.json';
+import { APP_VERSION, BUILD_CONTEXT, BUILD_SHA } from '../core/build-info';
 
 @Component({
   selector: 'sf-footer',
@@ -61,11 +61,14 @@ import { version as APP_VERSION } from '../../../package.json';
       </div>
       <div class="footer-base">
         <span>© 1974—2026 Suea Fai · T.C. Pharmaceutical (fictional)</span>
-        <span>กระทิงไฟ · {{ 'Bangkok ↔ Milano' | t }} · v{{ appVersion }}</span>
+        <span>กระทิงไฟ · {{ 'Bangkok ↔ Milano' | t }} · {{ versionLabel }}</span>
       </div>
     </footer>
   `,
 })
 export class FooterComponent {
-  readonly appVersion = APP_VERSION;
+  readonly versionLabel =
+    BUILD_CONTEXT === 'dev'
+      ? `v${APP_VERSION} · dev${BUILD_SHA ? ' · ' + BUILD_SHA : ''}`
+      : `v${APP_VERSION}`;
 }

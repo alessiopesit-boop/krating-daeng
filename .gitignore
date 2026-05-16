@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Build info generato da scripts/write-build-sha.mjs (commit hash per dev)
+/src/app/core/build-sha.local.ts
