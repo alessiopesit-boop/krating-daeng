@@ -58,7 +58,7 @@ type Sort = 'featured' | 'price-asc' | 'price-desc';
               <sf-tiger-badge [size]="140" />
             </div>
           </aside>
-          <div class="shop-grid" style="grid-template-columns:repeat(3, 1fr)">
+          <div class="shop-grid shop-grid--with-sidebar">
             @for (p of sorted(); track p.id) {
               <sf-product-card [product]="p" />
             }
