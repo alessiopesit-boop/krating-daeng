@@ -38,14 +38,15 @@ Niente backend: tutto in-memory, persistenza via `localStorage` per carrello, li
 
 ```
 src/app/
-  app.component.ts        # shell: nav + router-outlet + footer + cart-drawer + tweaks-panel
+  app.component.ts        # shell: nav + router-outlet + footer + cart-drawer
   app.config.ts           # provideRouter con hash location e scroll restoration
   app.routes.ts           # tutte le route con loadComponent (lazy)
-  chrome/                 # UI persistente: nav, footer, cart-drawer, tweaks-panel, lang-toggle
-  core/                   # stato e dati: cart.service, lang.service, tweaks.service, products, phrases, lang.pipe
+  chrome/                 # UI persistente: nav, footer, cart-drawer, lang-toggle
+  core/                   # stato e dati: cart/lang/tweaks service, products, phrases, lang.pipe, build-info
   illustrations/          # SVG inline come componenti (logo, tiger, sun-burst, ecc.)
   pages/                  # una component per route (home, shop, pdp, checkout, confirm, storia, muay-thai, faq, not-found)
   shared/                 # pezzi riusati tra pagine (product-card, faq-list, muay-thai-section, faq-data)
+scripts/                  # script Node usati come npm hook (postinstall, prestart, prebuild)
 ```
 
 ### Convenzioni
@@ -64,6 +65,22 @@ src/app/
 - `CartService` (`core/cart.service.ts`): righe carrello con quantita', persistenza locale, totale derivato via signal.
 - `LangService` (`core/lang.service.ts`): switch `it`/`en`, dizionario `PHRASES`, metodo `t(itText)` con fallback all'originale e preservazione di whitespace ai bordi.
 - `TweaksService` (`core/tweaks.service.ts`): pannello di tweaks runtime per palette (`red`/`yellow`/`black`), presenza ornamenti thai (`heavy`/`light`/`off`), animazione hero (`rays`/`bulls`/`static`). Scrive `data-palette` e `data-thai` su `<html>`; gli stili globali reagiscono a quegli attributi.
+
+### Build info (dev vs release)
+
+`core/build-info.ts` espone `APP_VERSION`, `BUILD_CONTEXT` (`'dev'` o `'release'`) e `BUILD_SHA` (hash short del commit, solo in dev). Il footer e il `document.title` lo usano per distinguere visivamente le build di sviluppo da quelle pubblicate:
+
+- In **dev** (default, `npm start`): footer mostra `v1.0.1 · dev · abc1234`, document title prefissato con `[dev] ...`.
+- In **release** (build di produzione, CI): footer mostra solo `v1.0.1`, niente prefisso al title, comportamento utente invariato.
+
+Il meccanismo:
+
+- `src/app/core/build-info.ts` (committato): consumato dal codice, importa `BUILD_SHA` dal file local-only.
+- `src/app/core/build-info.prod.ts` (committato): sostituisce `build-info.ts` in configuration `production` via `fileReplacements` di `angular.json`. Non importa `build-sha.local.ts`, ha `BUILD_CONTEXT = 'release'` e `BUILD_SHA = ''`.
+- `src/app/core/build-sha.local.ts` (gitignored): contiene solo `export const BUILD_SHA = '<sha>'`. Autogenerato da `scripts/write-build-sha.mjs` ad ogni `npm install`/`start`/`build` (npm scripts `postinstall`/`prestart`/`prebuild`). Se git non e' disponibile, fallback a `'unknown'`.
+- `scripts/write-build-sha.mjs`: legge `git rev-parse --short HEAD` e scrive il file.
+
+Se modifichi questa logica: ricordati che il file `build-info.prod.ts` deve esistere e avere la stessa shape esportata, altrimenti il build di produzione fallisce.
 
 ## Comandi
 
