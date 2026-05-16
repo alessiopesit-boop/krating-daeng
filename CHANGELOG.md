@@ -4,6 +4,16 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.0.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.0.0...v1.0.1) (2026-05-16)
+
+
+### Bug Fixes
+
+* 404 redirect bug e nuova pagina brand-coerente ([#4](https://github.com/alessiopesit-boop/krating-daeng/issues/4)) ([68746cb](https://github.com/alessiopesit-boop/krating-daeng/commit/68746cb505fd9288e0fc35ca35cc9b932c609978))
+* favicon e titolo del documento ([#1](https://github.com/alessiopesit-boop/krating-daeng/issues/1)) ([6720c4b](https://github.com/alessiopesit-boop/krating-daeng/commit/6720c4b7d5026795b920f744dafd5f5ab990b920))
+* **i18n:** completa traduzioni e copy italiano ([#3](https://github.com/alessiopesit-boop/krating-daeng/issues/3)) ([2aaa099](https://github.com/alessiopesit-boop/krating-daeng/commit/2aaa099ae70d777b715b313ba249202d91ff80ab))
+* rimuovi pannello tweaks runtime dal sito ([#2](https://github.com/alessiopesit-boop/krating-daeng/issues/2)) ([3ed9bd8](https://github.com/alessiopesit-boop/krating-daeng/commit/3ed9bd8997c2d4cae318549be499afa12a21f9c3))
+
 ## [Unreleased]
 
 ## [1.0.0] - 2026-05-15
