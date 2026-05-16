@@ -16,7 +16,11 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # PAT (RELEASE_PLEASE_TOKEN) invece del GITHUB_TOKEN automatico:
+          # cosi' la GitHub Release pubblicata da release-please propaga
+          # l'evento "release: published" e fa partire deploy.yml. Con il
+          # GITHUB_TOKEN GitHub blocca la propagazione (anti-loop).
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -70,6 +74,30 @@ jobs:
               re.IGNORECASE,
           )
 
+          def unwrap_paragraphs(text):
+              """Trasforma i wrap "git-style" a 70 chars in paragrafi fluidi.
+              GitHub Flavored Markdown rende i newline singoli come <br>, quindi
+              senza unwrap ogni capoverso "spezzato" del commit diventa visibile
+              come riga corta. Qui collassiamo i singoli newline in spazi e
+              preserviamo solo i doppi newline (paragraph break).
+              """
+              text = text.strip()
+              if not text:
+                  return ""
+              # Marker temporaneo per i paragraph break (doppio newline o piu').
+              text = re.sub(r"\n[ \t]*\n+", "\x1f", text)
+              # Resto: ogni newline singolo diventa spazio.
+              text = re.sub(r"[ \t]*\n[ \t]*", " ", text)
+              # Collassa eventuali spazi consecutivi.
+              text = re.sub(r" {2,}", " ", text)
+              # Ripristina i paragraph break.
+              return text.replace("\x1f", "\n\n").strip()
+
+          def humanize(short_text):
+              """Capitalizza la prima lettera del subject ripulito."""
+              s = short_text.strip()
+              return s[0].upper() + s[1:] if s else ""
+
           buckets = {label: [] for _, label in GROUPS}
           breaking = []
 
@@ -90,7 +118,7 @@ jobs:
               if not m:
                   continue
               ctype = m.group("type").lower()
-              short = m.group("short").strip()
+              short_human = humanize(m.group("short"))
 
               # Estrai eventuale BREAKING CHANGE dal body (trailer git).
               body_lines = []
@@ -100,16 +128,17 @@ jobs:
                       breaking_lines.append(line.split(":", 1)[1].strip())
                   else:
                       body_lines.append(line)
-              body_clean = "\n".join(body_lines).strip()
+              body_clean = unwrap_paragraphs("\n".join(body_lines))
 
-              # Voce della Release: body discorsivo se presente, altrimenti
-              # subject ripulito del prefisso e capitalizzato.
-              if body_clean:
+              # Composizione della voce: titoletto "umano" + body discorsivo.
+              # Se manca uno dei due, ricadiamo sull'altro.
+              heading = f"### {short_human}" if short_human else ""
+              if heading and body_clean:
+                  voice = f"{heading}\n\n{body_clean}"
+              elif heading:
+                  voice = heading
+              elif body_clean:
                   voice = body_clean
-              elif short:
-                  voice = short[0].upper() + short[1:]
-                  if not voice.endswith((".", "!", "?")):
-                      voice += "."
               else:
                   voice = ""
 
@@ -119,7 +148,11 @@ jobs:
               # Breaking change: in cima, oltre che nel gruppo originale.
               is_breaking = bool(m.group("bang")) or bool(breaking_lines)
               if is_breaking:
-                  breaking.append(breaking_lines[0] if breaking_lines else voice)
+                  br_text = breaking_lines[0] if breaking_lines else body_clean or short_human
+                  if short_human and br_text != short_human:
+                      breaking.append(f"### {short_human}\n\n{br_text}")
+                  else:
+                      breaking.append(br_text)
 
               label = GROUP_BY_TYPE.get(ctype)
               if label is not None:
