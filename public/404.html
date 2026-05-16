@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Suea Fai</title>
+  <meta name="robots" content="noindex">
+  <script>
+    (function () {
+      var BASE = '/krating-daeng/';
+      var url = new URL(window.location.href);
+      var path = url.pathname;
+      var rest = '';
+      if (path.indexOf(BASE) === 0) {
+        rest = path.slice(BASE.length);
+      } else if (path.startsWith('/')) {
+        rest = path.slice(1);
+      }
+      var hash = rest ? '#/' + rest.replace(/^\/+/, '') : '';
+      window.location.replace(BASE + url.search + hash);
+    })();
+  </script>
+</head>
+<body></body>
+</html>

@@ -1570,6 +1570,52 @@ body {
 }
 .breadcrumb a { color: var(--cream); text-decoration: none; }
 
+/* ===== 404 not found ===== */
+.not-found {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 5rem 1.5rem;
+}
+.not-found-inner {
+  max-width: 640px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+.not-found-logo { line-height: 0; }
+.not-found-eyebrow {
+  color: var(--red);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+.not-found-title {
+  font-size: clamp(3.2rem, 9vw, 5.6rem);
+  margin: 0;
+  color: var(--ink);
+}
+.not-found-title .yellow {
+  color: var(--yellow);
+  -webkit-text-stroke: 2px var(--ink);
+  text-stroke: 2px var(--ink);
+}
+.not-found-body {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  margin: 0;
+}
+.not-found-cta {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.6rem;
+}
+
 /* ===== Misc helpers ===== */
 .badge-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1rem 0; }
 .badge {

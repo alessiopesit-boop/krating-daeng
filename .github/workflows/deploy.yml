@@ -33,11 +33,9 @@ jobs:
       - name: Build (production, base-href per Pages)
         run: npm run build -- --base-href=/krating-daeng/ --configuration=production
 
-      # GitHub Pages serve solo file statici; per garantire che route hash e
-      # deep link funzionino sempre, copiamo index.html anche su 404.html.
-      - name: SPA fallback (404.html)
-        run: cp dist/krating-daeng/browser/index.html dist/krating-daeng/browser/404.html
-
+      # public/404.html (commit nel repo) viene gia' copiato come asset da
+      # Angular. Fa redirect a /krating-daeng/#/<path> cosi' gli URL inesistenti
+      # arrivano alla route catch-all e mostrano la NotFoundComponent.
       - name: Disable Jekyll
         run: touch dist/krating-daeng/browser/.nojekyll
 
