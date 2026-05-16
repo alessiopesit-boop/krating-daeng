@@ -1007,6 +1007,11 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.6rem;
 }
+/* Variante usata nella pagina Shop, dove c'e' la sidebar dei filtri a
+   sinistra: meno colonne di default per non far diventare le card minuscole. */
+.shop-grid--with-sidebar {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .product-card {
   background: var(--cream);
   border: 3px solid var(--ink);
@@ -1797,9 +1802,43 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .product-card .price { font-size: 1.05rem; }
   .product-card img { max-width: 100%; height: auto; }
 
-  /* Shop page: hide sidebar, stack */
+  /* Shop page: stack, sidebar diventa una "barra filtri" compatta sopra
+     la griglia con i filtri come pill orizzontali scrollabili. */
   .shop-page-layout { gap: 1.5rem; grid-template-columns: minmax(0, 1fr); }
-  .shop-sidebar { position: static; width: 100%; }
+  .shop-page-layout > aside { position: static; width: 100%; }
+  .shop-page-layout > aside > div:last-child { display: none; }
+  .filter-block {
+    border-top: none;
+    border-bottom: 2px solid var(--ink);
+    padding: 0.6rem 0 0.9rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    align-items: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filter-block h5 { margin: 0; flex: 0 0 auto; padding-right: 0.4rem; }
+  .filter-opt {
+    flex: 0 0 auto;
+    padding: 0.35rem 0.7rem;
+    background: var(--paper-deep);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-size: 0.72rem;
+  }
+  .filter-opt input { display: none; }
+  .filter-opt.active { background: var(--yellow); color: var(--ink); }
+  /* La "Disponibilita'" non e' selezionabile, lascia il testo a wrap dentro
+     il filter-block (non si scrolla). */
+  .filter-block:has(> .t-mono) { flex-wrap: wrap; }
+  .filter-block .t-mono { font-size: 0.7rem !important; flex: 1 1 100%; }
+
+  /* Shop page banner: piu' compatto, niente "X prodotti..." sulla destra. */
+  .page-banner { padding: 2.2rem 1rem 2rem; }
+  .page-banner h1 { font-size: clamp(2.4rem, 9vw, 3.6rem) !important; }
+  .page-banner-inner { gap: 0.6rem; }
+  .page-banner-inner > .t-mono { font-size: 0.66rem; }
 
   /* PDP */
   .pdp-thumbs { gap: 0.5rem; flex-wrap: wrap; }
