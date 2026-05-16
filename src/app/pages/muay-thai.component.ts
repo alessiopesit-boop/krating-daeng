@@ -14,7 +14,7 @@ import { FighterComponent } from '../illustrations/fighter.component';
       <section class="page-banner">
         <div class="page-banner-inner">
           <div>
-            <div class="breadcrumb"><a routerLink="/">Home</a> / {{ 'Muay Thai' | t }}</div>
+            <div class="breadcrumb"><a routerLink="/">{{ 'Home' | t }}</a> / {{ 'Muay Thai' | t }}</div>
             <h1><span class="yellow">{{ 'Muay Thai' | t }}</span><br />{{ 'Heritage' | t }}</h1>
           </div>
         </div>

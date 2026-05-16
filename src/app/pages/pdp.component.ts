@@ -17,7 +17,7 @@ interface FormatOpt { id: string; name: string; price: number; }
       <section class="page-banner" style="padding-bottom:2rem">
         <div class="page-banner-inner">
           <div class="breadcrumb">
-            <a routerLink="/">Home</a> / <a routerLink="/shop">Shop</a> / {{ product().name | t }}
+            <a routerLink="/">{{ 'Home' | t }}</a> / <a routerLink="/shop">{{ 'Shop' | t }}</a> / {{ product().name | t }}
           </div>
         </div>
       </section>

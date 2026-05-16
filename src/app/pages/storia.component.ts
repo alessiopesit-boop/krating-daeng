@@ -13,8 +13,8 @@ import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component'
       <section class="page-banner">
         <div class="page-banner-inner">
           <div>
-            <div class="breadcrumb"><a routerLink="/">Home</a> / {{ 'La Storia' | t }}</div>
-            <h1>{{ 'La ' | t }}<span class="yellow">storia</span></h1>
+            <div class="breadcrumb"><a routerLink="/">{{ 'Home' | t }}</a> / {{ 'La Storia' | t }}</div>
+            <h1>{{ 'La ' | t }}<span class="yellow">{{ 'storia' | t }}</span></h1>
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component'
       <section class="manifesto">
         <sf-thai-ornament [width]="240" color="#f5c518" />
         <blockquote style="margin-top:2rem">
-          {{ 'Non è una ' | t }}<span class="yellow">{{ 'bibita.' | t }}</span><br />{{ 'È un attrezzo.' | t }}
+          {{ 'Non è una ' | t }}<span class="yellow">{{ 'bibita.' | t }}</span><br />{{ 'È uno strumento.' | t }}
         </blockquote>
         <cite>{{ '— Da una targa nel laboratorio di Yaowarat' | t }}</cite>
       </section>

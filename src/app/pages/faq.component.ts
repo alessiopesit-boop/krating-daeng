@@ -13,7 +13,7 @@ import { FaqListComponent } from '../shared/faq-list.component';
       <section class="page-banner">
         <div class="page-banner-inner">
           <div>
-            <div class="breadcrumb"><a routerLink="/">Home</a> / FAQ</div>
+            <div class="breadcrumb"><a routerLink="/">{{ 'Home' | t }}</a> / {{ 'FAQ' | t }}</div>
             <h1><span class="yellow">{{ 'Domande' | t }}</span><br />{{ 'frequenti' | t }}</h1>
           </div>
         </div>
