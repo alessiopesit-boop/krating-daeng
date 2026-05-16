@@ -2,9 +2,9 @@
 
 Istruzioni per Claude Code (e qualunque altro assistente AI compatibile) che lavora su questo repo. Questo file viene caricato automaticamente all'inizio di ogni sessione dalla root del progetto, quindi vale come "memoria di progetto" condivisa.
 
-## Regola d'oro: tieni aggiornato questo file
+## Regola d'oro: tieni aggiornati CLAUDE.md e README.md
 
-**Ogni volta che modifichi il codice in modo non banale, aggiorna anche questo file** se la modifica:
+**Ogni volta che modifichi il codice in modo non banale, aggiorna anche questo file (CLAUDE.md)** se la modifica:
 
 - introduce o rimuove una dipendenza, uno script npm, una route, una pagina, un servizio core o un componente di chrome;
 - cambia una convenzione (naming, struttura cartelle, prefisso selettori, pattern signal/effect, persistenza in `localStorage`, ecc.);
@@ -13,7 +13,9 @@ Istruzioni per Claude Code (e qualunque altro assistente AI compatibile) che lav
 - modifica il comportamento di build/dev/test;
 - introduce un vincolo non ovvio (workaround, bug noto, limite di un'API).
 
-Se la modifica e' una piccola correzione (typo, refactor locale, rinomina di una variabile privata, fix CSS puntuale), **non** serve aggiornare CLAUDE.md. In dubbio: aggiorna.
+**Aggiorna anche `README.md`** quando una modifica e' significativa per chi legge il repo da fuori (chiunque apra il sorgente su GitHub): nuova feature visibile, cambio di comandi (npm scripts), cambio di stack o di flusso di sviluppo, nuovo URL del sito, requisiti di setup. Il README e' la facciata pubblica del progetto, deve restare sintetico ma aggiornato.
+
+Se la modifica e' una piccola correzione (typo, refactor locale, rinomina di una variabile privata, fix CSS puntuale), **non** serve aggiornare ne' CLAUDE.md ne' README. In dubbio: aggiorna CLAUDE.md (interno) e valuta se anche README (esterno).
 
 Aggiornare significa: modificare la sezione gia' esistente che descrive l'area toccata. Non aggiungere log di modifiche o changelog qui, il `git log` e' l'unica fonte di verita' per la cronologia.
 
