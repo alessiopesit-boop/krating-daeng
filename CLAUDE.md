@@ -146,23 +146,17 @@ Strategia per le PR: **Squash and merge**.
 
 Quindi quando apri la PR cura titolo **e** descrizione: insieme diventano il commit, da cui release-please costruisce la release. La PR e' la fonte di verita'.
 
-### Setup repo da fare a mano (una volta sola)
+### Setup repo: gia' applicato via API
 
-Le impostazioni qui sotto non si possono applicare via workflow di GitHub Actions, perche' il `GITHUB_TOKEN` automatico **non ha permessi `administration`** sul repository. Servirebbe un PAT personale dedicato. Per semplicita' si fanno a mano dal browser, una sola volta, all'apertura del repo:
+Le impostazioni del repo (merge strategy, commit message di default, auto-delete branch, branch protection su `main`, workflow permissions) **sono gia' state applicate** via API con un PAT fine-grained dell'account `alessiopesit-boop`. Stato corrente:
 
-1. `Settings > General > Pull Requests` (https://github.com/alessiopesit-boop/krating-daeng/settings):
-   - lascia attivo **solo** `Allow squash merging` (togli `Allow merge commits` e `Allow rebase merging`);
-   - sotto la checkbox squash appare un dropdown `Default commit message`: scegli `Pull request title and description`;
-   - piu' in basso: spunta `Automatically delete head branches`.
-2. `Settings > Branches > Add classic branch protection rule` con branch name `main`:
-   - `Require a pull request before merging` (review count = 0 va bene, sei da solo);
-   - `Require linear history`;
-   - lascia disattivate `Allow force pushes` e `Allow deletions`.
-3. `Settings > Actions > General > Workflow permissions`:
-   - `Read and write permissions`;
-   - spunta `Allow GitHub Actions to create and approve pull requests` (serve a release-please per aprire la Release PR).
+- Merge: solo squash merging. `Allow merge commits` e `Allow rebase merging` disattivati.
+- Default commit message dello squash: `PR_TITLE` + `PR_BODY`. Il commit su `main` eredita titolo e descrizione della PR.
+- `Automatically delete head branches`: attivo (i branch sono auto-cancellati dopo il merge).
+- Branch protection su `main`: PR obbligatoria (0 review richiesti), `Require linear history` attivo, `Allow force pushes` e `Allow deletions` disattivati.
+- Workflow permissions: `Read and write` con `Allow GitHub Actions to create and approve pull requests` attivo (serve a release-please per aprire la Release PR).
 
-Una volta fatti questi 3 passaggi, il repo e' configurato in modo coerente con tutto il resto.
+Se per qualunque ragione queste impostazioni venissero modificate a mano, si possono riapplicare via `gh api` (richiede PAT con `Administration: write` sul repo); il payload e' visibile nei commit dei chore che le hanno introdotte.
 
 ## Versioning
 
@@ -202,13 +196,22 @@ Modi di forzare la prossima versione (raramente serve):
 
 ## Deploy: GitHub Pages
 
-Pubblicazione automatica via GitHub Actions, workflow in `.github/workflows/deploy.yml`. Ad ogni push su `main` (o lancio manuale da "Actions") il sito viene buildato e pubblicato su `https://alessiopesit-boop.github.io/krating-daeng/`.
+Pubblicazione su `https://alessiopesit-boop.github.io/krating-daeng/` via GitHub Actions, workflow `.github/workflows/deploy.yml`.
+
+**Trigger: solo Release pubblicata** (`on: release: types: [published]`). Cioe': quando mergi la Release PR di release-please nasce un tag + una GitHub Release; quel `release: published` fa partire il deploy. **I merge su `main` da soli non vanno live**: questa e' una scelta deliberata, cosi' il sito in produzione coincide sempre con un tag e la versione mostrata nel footer non e' mai "falsa" (= sempre allineata al `package.json` di quel tag).
+
+Conseguenze pratiche:
+
+- Tra una release e l'altra, `main` accumula PR mergiate ma il sito live resta alla versione precedente. Per vedere l'ultimo `main` non rilasciato, build locale (`npm start` o `npm run build`).
+- Se proprio serve mostrare a qualcuno un'anteprima di `main` non ancora rilasciato (demo, screenshot), si lancia a mano `Actions > Deploy to GitHub Pages > Run workflow` (trigger `workflow_dispatch`). Va considerato un'eccezione, non la norma.
+- Per rilasciare in fretta dopo aver mergiato qualche PR, basta mergiare anche la Release PR che release-please tiene aperta: il deploy parte subito dopo.
 
 Cose da sapere se lo modifichi:
 
 - Il build di produzione viene fatto con `--base-href=/krating-daeng/`: lo richiede il fatto che il sito vive su un sottopath del dominio `*.github.io`. Se cambia il nome del repo, va aggiornato anche qui.
 - L'output di Angular 19 con builder `application` finisce in `dist/krating-daeng/browser/`: e' la cartella caricata come artifact Pages.
-- Per sicurezza il workflow copia `index.html` in `404.html` e crea `.nojekyll`: cosi' i deep link funzionano anche se qualcuno togliesse `withHashLocation()`, e Pages non prova a passare i file tramite Jekyll.
+- `public/404.html` contiene un piccolo redirect a `/krating-daeng/#/<path>` per garantire che URL inesistenti arrivino alla NotFoundComponent (Angular usa hash routing, ma Pages serve 404.html quando il path non esiste sul filesystem). Viene copiato automaticamente nel `dist/` come asset.
+- `.nojekyll` viene creato dal workflow per impedire a Pages di processare i file via Jekyll.
 - Prima pubblicazione: in *Settings > Pages* del repo va scelto "Source: GitHub Actions" una volta sola.
 
 ## Vincoli e cose da non fare

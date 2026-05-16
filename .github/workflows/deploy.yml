@@ -1,8 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Deploy solo su Release pubblicata: il sito live coincide sempre con un tag
+# (la versione mostrata nel footer e' sempre quella effettivamente in produzione).
+# workflow_dispatch resta come fallback manuale per emergenze o anteprime
+# straordinarie da main (non per uso quotidiano).
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
