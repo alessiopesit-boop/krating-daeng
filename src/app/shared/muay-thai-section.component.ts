@@ -48,11 +48,11 @@ interface Fight {
           }
         </div>
 
-        <div style="margin-top:4rem;display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center">
-          <img src="images/05-muay-thai-gym.png" alt="Palestra Muay Thai" style="width:100%;border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink)" />
+        <div class="gym-feature">
+          <img src="images/05-muay-thai-gym.png" alt="Palestra Muay Thai" class="gym-feature-img" />
           <div>
-            <h3 class="t-display" style="font-size:2.4rem;margin:0">{{ 'Ogni palestra ha la sua bottiglia.' | t }}</h3>
-            <p style="margin-top:1rem;line-height:1.55;font-size:1.05rem">
+            <h3 class="t-display gym-feature-title">{{ 'Ogni palestra ha la sua bottiglia.' | t }}</h3>
+            <p class="gym-feature-body">
               {{ 'Da Bangkok a Chiang Mai, da Phuket a Korat, le bottigliette vuote di Suea Fai si accumulano sui banconi delle palestre come trofei silenziosi. Una a fine allenamento. Una prima del clinch. Una al risveglio prima della corsa.' | t }}
             </p>
             <div class="badge-row" style="margin-top:1.4rem">
