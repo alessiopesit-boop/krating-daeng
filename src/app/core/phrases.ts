@@ -270,6 +270,13 @@ export const PHRASES: Record<string, string> = {
   'in vetro.': 'in glass.',
   storia: 'story',
 
+  // 404
+  'Pagina non trovata': 'Page not found',
+  'Questa pagina': 'This page',
+  "non c'è.": "isn't here.",
+  "Hai sbagliato indirizzo, oppure la stiamo ancora costruendo. La tigre nel frattempo è da un'altra parte.":
+    "Wrong address, or we're still building it. The tiger has moved on in the meantime.",
+
   // Drawer
   Chiudi: 'Close',
   Rimuovi: 'Remove',
