@@ -11,7 +11,7 @@ export const PHRASES: Record<string, string> = {
 
   // Hero
   '★ Est. Bangkok 1974': '★ Est. Bangkok 1974',
-  'Pharmaceutical Formula': 'Pharmaceutical Formula',
+  'Formula farmaceutica': 'Pharmaceutical Formula',
   'Prima delle lattine,': 'Before the cans,',
   "c'era ": 'there was ',
   'il vetro.': 'glass.',
@@ -82,8 +82,8 @@ export const PHRASES: Record<string, string> = {
     'in the seventies Bangkok woke up before dawn. Truck drivers coming down from the north with rice, workers entering the Pratunam textile factories, farmers reaching the markets on tuk-tuks loaded with mangoes. The day began standing up, with ten baht in your pocket and ten hours ahead.',
   "nasce in quegli anni in un piccolo laboratorio farmaceutico di Yaowarat, ispirato al Lipovitan-D giapponese. Caffeina, taurina, vitamine del gruppo B, zucchero di canna locale — niente bolle, niente fronzoli. Una formula pensata per chi il caffè non se lo poteva permettere e doveva comunque tirare fino a sera.":
     "was born in those years in a small pharmaceutical lab in Yaowarat, inspired by Japan's Lipovitan-D. Caffeine, taurine, B-complex vitamins, local cane sugar — no bubbles, no frills. A formula made for those who couldn't afford coffee and still had to push through till evening.",
-  'Veniva imbottigliata in vetro ambrato perché il vetro si lavava, si riusava, e proteggeva la formula dalla luce. Veniva venduta a dieci baht — il prezzo di un piatto di riso — nei chioschi all\'angolo, nelle palestre di Muay Thai, sui banconi dei minimarket. Non era un\'idea di marketing. Era un attrezzo da lavoro.':
-    "It was bottled in amber glass because glass could be washed, reused, and shielded the formula from light. Sold for ten baht — the price of a plate of rice — at corner stalls, Muay Thai gyms, minimarket counters. It wasn't a marketing idea. It was a working tool.",
+  'Veniva imbottigliata in vetro ambrato perché il vetro si lavava, si riusava, e proteggeva la formula dalla luce. Veniva venduta a dieci baht, il prezzo di un piatto di riso, nei chioschi all\'angolo, nelle palestre di Muay Thai, sui banconi dei minimarket. Non era un\'idea di marketing. Era uno strumento di lavoro.':
+    "It was bottled in amber glass because glass could be washed, reused, and shielded the formula from light. Sold for ten baht, the price of a plate of rice, at corner stalls, Muay Thai gyms, minimarket counters. It wasn't a marketing idea. It was a working tool.",
   'La prima formula': 'The first formula',
   'In un retrobottega di Yaowarat nasce la prima bottiglia: 150ml di tonico ambrato, etichettato a mano. Bangkok ha la sua tigre.':
     'In a Yaowarat back room the first bottle is born: 150ml of amber tonic, hand-labelled. Bangkok has its tiger.',
@@ -268,6 +268,7 @@ export const PHRASES: Record<string, string> = {
   '★ 1974 — oggi': '★ 1974 — today',
   "Cinquant'anni": 'Fifty years',
   'in vetro.': 'in glass.',
+  storia: 'story',
 
   // Drawer
   Chiudi: 'Close',
@@ -339,7 +340,7 @@ export const PHRASES: Record<string, string> = {
     'Official European import. Warehouse in Milan.',
   "Non è una ": "It's not a ",
   'bibita.': 'soda.',
-  'È un attrezzo.': "It's a tool.",
+  'È uno strumento.': "It's a tool.",
   '— Da una targa nel laboratorio di Yaowarat': '— From a plaque in the Yaowarat lab',
 
   // Muay Thai page

@@ -18,7 +18,7 @@ type Sort = 'featured' | 'price-asc' | 'price-desc';
       <section class="page-banner">
         <div class="page-banner-inner">
           <div>
-            <div class="breadcrumb"><a routerLink="/">Home</a> / Shop</div>
+            <div class="breadcrumb"><a routerLink="/">{{ 'Home' | t }}</a> / {{ 'Shop' | t }}</div>
             <h1>{{ 'Tutti i ' | t }}<span class="yellow">{{ 'prodotti' | t }}</span></h1>
           </div>
           <div class="t-mono" style="color:var(--yellow)">

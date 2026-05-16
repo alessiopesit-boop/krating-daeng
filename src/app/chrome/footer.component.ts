@@ -30,7 +30,7 @@ import { version as APP_VERSION } from '../../../package.json';
           </div>
         </div>
         <div>
-          <h4>Shop</h4>
+          <h4>{{ 'Shop' | t }}</h4>
           <ul>
             <li><a routerLink="/shop">{{ 'Tutti i prodotti' | t }}</a></li>
             <li><a routerLink="/product/single">{{ 'Bottiglia singola' | t }}</a></li>

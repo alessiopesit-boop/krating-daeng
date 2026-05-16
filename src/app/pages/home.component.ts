@@ -43,7 +43,7 @@ import { MuayThaiSectionComponent } from '../shared/muay-thai-section.component'
           <div class="hero-eyebrow">
             <span class="t-mono">{{ '★ Est. Bangkok 1974' | t }}</span>
             <span class="divider-dot" style="background:var(--yellow)"></span>
-            <span class="t-mono">{{ 'Pharmaceutical Formula' | t }}</span>
+            <span class="t-mono">{{ 'Formula farmaceutica' | t }}</span>
           </div>
           <h1>
             @if (tweaks.tweaks().thaiPresence !== 'off') {
@@ -180,7 +180,7 @@ import { MuayThaiSectionComponent } from '../shared/muay-thai-section.component'
               {{ ' nasce in quegli anni in un piccolo laboratorio farmaceutico di Yaowarat, ispirato al Lipovitan-D giapponese. Caffeina, taurina, vitamine del gruppo B, zucchero di canna locale — niente bolle, niente fronzoli. Una formula pensata per chi il caffè non se lo poteva permettere e doveva comunque tirare fino a sera.' | t }}
             </p>
             <p>
-              {{ "Veniva imbottigliata in vetro ambrato perché il vetro si lavava, si riusava, e proteggeva la formula dalla luce. Veniva venduta a dieci baht — il prezzo di un piatto di riso — nei chioschi all'angolo, nelle palestre di Muay Thai, sui banconi dei minimarket. Non era un'idea di marketing. Era un attrezzo da lavoro." | t }}
+              {{ "Veniva imbottigliata in vetro ambrato perché il vetro si lavava, si riusava, e proteggeva la formula dalla luce. Veniva venduta a dieci baht, il prezzo di un piatto di riso, nei chioschi all'angolo, nelle palestre di Muay Thai, sui banconi dei minimarket. Non era un'idea di marketing. Era uno strumento di lavoro." | t }}
             </p>
 
             <div class="timeline">
