@@ -1708,9 +1708,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
   /* Footer */
   .footer-inner { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding: 2rem 1rem; }
 
-  /* Tweaks panel: bottom sheet style on mobile */
-  .tweaks-panel { left: 0.5rem !important; right: 0.5rem !important; bottom: 0.5rem !important; width: auto !important; max-width: none !important; }
-
   /* Generic image safety */
   img { max-width: 100%; height: auto; }
 }
