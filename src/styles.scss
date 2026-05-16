@@ -1586,6 +1586,27 @@ body {
 .gym-feature-title { font-size: 2.4rem; margin: 0; }
 .gym-feature-body { margin-top: 1rem; line-height: 1.55; font-size: 1.05rem; }
 
+/* ===== Muay Thai page: ritual feature row (Wai Khru) ===== */
+.ritual-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.ritual-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-top: 1.4rem;
+}
+.ritual-body + .ritual-body { margin-top: 1rem; }
+.ritual-art {
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  padding: 3rem;
+  border: 4px solid var(--ink);
+}
+
 /* ===== 404 not found ===== */
 .not-found {
   min-height: 70vh;
@@ -1678,10 +1699,13 @@ body {
 html, body { overflow-x: hidden; max-width: 100%; }
 
 @media (max-width: 980px) {
-  .hero, .origins-grid, .product-grid, .pdp-grid, .checkout-grid, .shop-page-layout {
+  .hero, .origins-grid, .product-grid, .pdp-grid, .checkout-grid, .shop-page-layout, .gym-feature, .ritual-feature {
     grid-template-columns: minmax(0, 1fr);
   }
-  .hero > *, .origins-grid > *, .product-grid > *, .pdp-grid > *, .checkout-grid > *, .shop-page-layout > *, .shop-grid > *, .poster-wall > *, .footer-inner > * { min-width: 0; }
+  .hero > *, .origins-grid > *, .product-grid > *, .pdp-grid > *, .checkout-grid > *, .shop-page-layout > *, .shop-grid > *, .poster-wall > *, .footer-inner > *, .gym-feature > *, .ritual-feature > * { min-width: 0; }
+  .gym-feature, .ritual-feature { gap: 2rem; }
+  .gym-feature { margin-top: 2.5rem; }
+  .ritual-art { padding: 2rem; }
   .shop-grid, .poster-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
   .hero { padding: 3rem 1.25rem; min-height: auto; }
