@@ -1918,6 +1918,10 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .pdp-format { grid-template-columns: minmax(0, 1fr); }
   .pdp-features { font-size: 0.92rem; }
   .pdp-grid img { max-width: 100%; height: auto; }
+  /* Selettore quantita' e bottone "Aggiungi al carrello" su due righe:
+     restano leggibili e il bottone diventa pieno schermo. */
+  .pdp-qty { flex-wrap: wrap; gap: 0.8rem; }
+  .pdp-add { flex: 0 0 100%; width: 100%; }
 
   /* Checkout */
   .field-grid { grid-template-columns: minmax(0, 1fr); }
