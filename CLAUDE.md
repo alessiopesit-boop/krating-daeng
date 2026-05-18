@@ -110,6 +110,16 @@ Crea sempre un branch dal `main` aggiornato. Prefissi convenzionali (servono sol
 
 Esempi: `feat/testimonial-section`, `fix/pdp-price-recalc`, `chore/bump-angular-19.3`.
 
+### Scope di una PR
+
+**Una PR copre uno scope logico.** Due bug non correlati, anche piccoli, vanno in due PR separate. Regola pratica: se lo `scope` del Conventional Commit dovrebbe essere diverso tra una modifica e l'altra, sono due PR (es. `fix(faq):` + `fix(cart):` non si bundlano).
+
+Vale anche se si tocca lo stesso file: se `src/styles.scss` riceve un fix CSS al carrello e uno separato alle FAQ, due PR. Il refactor "di passaggio" mentre si sistema altro va evitato; se serve, una `refactor:` dedicata.
+
+Eccezione: ritocchi adiacenti che condividono lo stesso "perche'" possono stare in una sola PR. Tipico esempio: una pass di responsiveness mobile che tocca quattro sezioni e ha un solo motivo ("rendere il sito leggibile su iPhone") puo' stare in `fix(ui):` o `fix(mobile):` unico. Ma se i fix sono indipendenti (un tap-highlight su FAQ + un margin sbagliato nel carrello), sono due PR.
+
+Perche': PR piccole e mono-scope sono piu' rapide da revieware, piu' facili da rollbaccare e generano release notes piu' pulite (un bullet per voce, ogni voce e' un cambio comprensibile a se' stante).
+
 ### Commit: Conventional Commits + body discorsivo
 
 Tutti i commit (e i titoli delle PR) seguono [Conventional Commits](https://www.conventionalcommits.org/).
@@ -217,11 +227,15 @@ Cosa succede in pratica:
 2. Il workflow `release.yml` parte ad ogni push su `main`. release-please apre **automaticamente** una PR speciale tipo `chore(main): release X.Y.Z` che contiene:
    - bump di `package.json` e `.release-please-manifest.json`;
    - aggiornamento di `CHANGELOG.md` con i commit dell'ultimo ciclo, raggruppati per tipo (Features, Bug Fixes, ecc.).
+
+   Subito dopo, uno step dello stesso workflow **riscrive il body della Release PR** nello stesso stile "In sintesi" + "Dettagli" che vedrai nella Release pubblicata, cosi' chi la review vede gia' un'anteprima fedele delle release notes. Non serve aprire la PR e ritoccarla a mano: ad ogni nuovo commit rilasciabile la PR viene rigenerata e riscritta automaticamente.
 3. Quella Release PR **resta aperta** e **si auto-aggiorna** ogni volta che mergi su `main` un nuovo commit. Se il commit e' rilasciabile, viene incluso nelle note e (se serve) cambia il bump (es. da PATCH a MINOR). Se e' `chore:` / `docs:` / `ci:` / `test:` viene mergiato comunque su `main`, fara' parte del tag finale, ma non comparira' nelle release notes ne' influenzera' il numero di versione.
 4. **La tua unica decisione** e' quando rilasciare: quando ti sembra ci sia abbastanza materiale, mergi la Release PR. Solo allora release-please:
    - crea il tag git (`vX.Y.Z` con la `v`);
    - crea la GitHub Release;
    - lo step finale del workflow **riscrive il body della Release** in due sezioni: **In sintesi** in cima (bullet con il subject ripulito per ogni voce, raggruppati per tipo: Novita', Correzioni, Performance, Refactor, Modifiche incompatibili) e **Dettagli** sotto (titoletti `###` con il body discorsivo, solo per le voci che hanno un body). Risultato: chi legge a colpo d'occhio vede l'indice; chi scrolla trova le descrizioni umane.
+
+   La logica di composizione delle note vive in `.github/scripts/release-notes.py` (riceve `--range`, stampa il body su stdout). Lo stesso script alimenta sia la riscrittura della Release pubblicata sia quella della Release PR in attesa di merge.
 
 Cosa NON apparira' mai nella Release PR perche' release-please li ignora dal bumping:
 
