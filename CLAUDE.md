@@ -114,8 +114,16 @@ Esempi: `feat/testimonial-section`, `fix/pdp-price-recalc`, `chore/bump-angular-
 
 Tutti i commit (e i titoli delle PR) seguono [Conventional Commits](https://www.conventionalcommits.org/).
 
-- Il **subject** e' la riga breve e tecnica, sempre nel formato `tipo(scope opzionale): cosa`. Serve a release-please per capire il tipo di cambio (bump version) e raggruppare nelle note. **Non appare letteralmente** nella GitHub Release.
-- Il **body** e' una **descrizione discorsiva breve**, di solito 1-3 frasi. **E' quello che apparira' nella GitHub Release**, sotto la sezione del tipo (Novita', Correzioni, ecc.). Scrivilo dal punto di vista di chi legge la release: cosa cambia per l'utente, cosa fa la modifica, quando serve saperlo. Niente jargon di file/funzioni a meno che non sia importante.
+- Il **subject** e' la riga breve e tecnica, sempre nel formato `tipo(scope opzionale): cosa`. Serve a release-please per capire il tipo di cambio (bump version) e per generare il **bullet** dell'indice nella GitHub Release (subject ripulito del prefisso e capitalizzato).
+- Il **body** e' una **descrizione user-facing breve, 1-2 frasi**, dal punto di vista di chi visita il sito (non dello sviluppatore). Niente nomi di file, regole CSS, signal/effect, regex e altro jargon tecnico a meno che non sia il punto. Compare nella sezione "Dettagli" della GitHub Release sotto il titoletto omonimo.
+
+Anti-esempi di body troppo tecnici:
+
+- ❌ `Sostituito flex-wrap: nowrap con flex-wrap: wrap nelle media query a 640px su .filter-block.` (chi visita non sa cosa sia flex-wrap)
+- ✅ `Su mobile i filtri ora vanno a capo invece di scrollare fuori schermo a destra.`
+
+- ❌ `Aggiunto SeoService che usa Title e Meta service di Angular, chiamato nei constructor delle pagine con setPageMeta({ title, description, path }).` (e' un how-to per il dev)
+- ✅ `Ogni pagina ora ha titolo, descrizione e tag Open Graph dedicati. La condivisione su social mostra un'anteprima coerente con quella pagina.`
 
 **Niente hard-wrap a 72 caratteri** nel body. La vecchia convenzione "git da terminale" spezza le righe a 72 chars, ma GitHub Flavored Markdown rende ogni newline singolo come `<br>` nelle Release: le frasi appaiono spezzate a metà. Scrivi **una frase per riga lunga** (anche 200 chars, non importa), e separa i paragrafi con una **riga vuota**. Lo step Python nel workflow `release.yml` ha comunque un `unwrap_paragraphs()` che ricongiunge i wrap, ma e' un cerotto: meglio non spezzarle alla fonte.
 
@@ -133,27 +141,32 @@ Tipi e mapping:
 | `ci:`, `build:`, `style:` | nessuno | no | (storia git) |
 | `feat!:` o `BREAKING CHANGE:` nel body | MAJOR | si, in cima | Modifiche incompatibili |
 
-Esempio di commit per una nuova feature (caso tipico, raccomandato). Le righe del body sono lunghe quanto serve, niente wrap a 72 chars:
+Esempio di commit per una nuova feature (caso tipico, raccomandato). Subject tecnico, body user-facing breve, niente wrap a 72 chars:
 
 ```
 feat(home): aggiunta sezione testimonial
 
-Aggiunge una sezione testimonial sulla home con tre citazioni da palestre Muay Thai. Le immagini caricano in lazy load e il layout si adatta al mobile.
-
-Per i visitatori da Bangkok abbiamo tradotto le tre citazioni anche in thailandese, mostrato in piccolo sotto la versione italiana.
+Tre citazioni da palestre Muay Thai sulla home, con anteprime e foto. Mostrate anche in thailandese sotto la versione italiana per i visitatori da Bangkok.
 ```
 
-Notare: ogni paragrafo e' una riga lunga, paragrafi separati da una riga vuota. Cosa esce nella GitHub Release (il Markdown wrappa naturalmente alla larghezza della pagina):
+Cosa esce nella GitHub Release con l'attuale formato (indice in cima, dettagli sotto):
 
 ```
-## Novita'
+## In sintesi
 
-Aggiunge una sezione testimonial sulla home con tre citazioni da palestre Muay Thai. Le immagini caricano in lazy load e il layout si adatta al mobile.
+**Novita'**
+- Aggiunta sezione testimonial
 
-Per i visitatori da Bangkok abbiamo tradotto le tre citazioni anche in thailandese, mostrato in piccolo sotto la versione italiana.
+---
+
+## Dettagli
+
+### Aggiunta sezione testimonial
+
+Tre citazioni da palestre Muay Thai sulla home, con anteprime e foto. Mostrate anche in thailandese sotto la versione italiana per i visitatori da Bangkok.
 ```
 
-Niente `feat(home): aggiunta sezione testimonial` visibile, e niente righe spezzate a meta'.
+Notare: nessun `feat(home): ...` letterale visibile. Il bullet in cima viene dal subject ripulito + capitalizzato; il blocco dettaglio in fondo prende il body discorsivo.
 
 Body **consigliato sempre** per `feat:`, `fix:`, `perf:`, `refactor:`. Se proprio manca (cambio piccolissimo e ovvio), il workflow fa un fallback: usa il subject ripulito del prefisso e capitalizzato. Esempio: `fix(footer): typo nel copyright` senza body diventa nella Release "Typo nel copyright.". Funziona ma e' meno bello: meglio scrivere il body.
 
@@ -196,7 +209,7 @@ Cosa succede in pratica:
 4. **La tua unica decisione** e' quando rilasciare: quando ti sembra ci sia abbastanza materiale, mergi la Release PR. Solo allora release-please:
    - crea il tag git (`vX.Y.Z` con la `v`);
    - crea la GitHub Release;
-   - lo step finale del workflow **riscrive il body della Release**: legge i commit del range, prende i body discorsivi (con fallback al subject ripulito se body assente), li raggruppa in sezioni (Novita', Correzioni, Performance, Refactor, Modifiche incompatibili) e sovrascrive il body iniziale generato da release-please. Risultato: una release "umana", senza subject letterali Conventional Commits.
+   - lo step finale del workflow **riscrive il body della Release** in due sezioni: **In sintesi** in cima (bullet con il subject ripulito per ogni voce, raggruppati per tipo: Novita', Correzioni, Performance, Refactor, Modifiche incompatibili) e **Dettagli** sotto (titoletti `###` con il body discorsivo, solo per le voci che hanno un body). Risultato: chi legge a colpo d'occhio vede l'indice; chi scrolla trova le descrizioni umane.
 
 Cosa NON apparira' mai nella Release PR perche' release-please li ignora dal bumping:
 
