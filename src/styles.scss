@@ -2162,8 +2162,28 @@ html, body { overflow-x: clip; max-width: 100%; }
   .confirm-card h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
   .confirm-card .order-id { font-size: 0.78rem; letter-spacing: 0.12em; word-break: break-all; }
 
-  /* Footer */
-  .footer-inner { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding: 2rem 1rem; }
+  /* Footer: due colonne su mobile per ridurre la lunghezza verticale.
+     Il blocco brand (primo div, con logo + descrizione + badges) prende
+     l'intera larghezza in alto; le tre liste link si distribuiscono nelle
+     due colonne sottostanti. */
+  .footer { padding: 3rem 1rem 1.5rem; }
+  .footer-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem 1.6rem;
+    padding: 0;
+  }
+  .footer-inner > div:first-child { grid-column: 1 / -1; }
+  .footer h4 { margin-bottom: 0.7rem; }
+  .footer ul { gap: 0.4rem; }
+  .footer a { font-size: 0.88rem; }
+  /* Riga base: su mobile va a capo per non comprimere le scritte */
+  .footer-base {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    font-size: 0.66rem;
+  }
 
   /* Generic image safety */
   img { max-width: 100%; height: auto; }
