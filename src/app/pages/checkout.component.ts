@@ -4,6 +4,7 @@ import { CartService } from '../core/cart.service';
 import { fmtPrice } from '../core/products';
 import { TPipe } from '../core/lang.pipe';
 import { TigerBadgeComponent } from '../illustrations/tiger-badge.component';
+import { SeoService } from '../core/seo.service';
 
 type Shipping = 'standard' | 'express';
 type Payment = 'card' | 'paypal' | 'bank';
@@ -202,6 +203,15 @@ export class CheckoutComponent {
   cart = inject(CartService);
   private router = inject(Router);
   fmt = fmtPrice;
+
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Checkout',
+      description: 'Completa il tuo ordine Suea Fai.',
+      path: '/#/checkout',
+      noIndex: true,
+    });
+  }
 
   readonly shipping = signal<Shipping>('standard');
   readonly payment = signal<Payment>('card');

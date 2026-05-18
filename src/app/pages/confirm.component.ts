@@ -5,6 +5,7 @@ import { fmtPrice } from '../core/products';
 import { ResolvedLine } from '../core/cart.service';
 import { TPipe } from '../core/lang.pipe';
 import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component';
+import { SeoService } from '../core/seo.service';
 
 interface StoredOrder {
   id: string;
@@ -69,6 +70,14 @@ export class ConfirmComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   fmt = fmtPrice;
+
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Ordine confermato',
+      description: 'Il tuo ordine Suea Fai e\' stato confermato.',
+      noIndex: true,
+    });
+  }
 
   private paramId = toSignal(this.route.paramMap, { requireSync: true });
   readonly orderId = computed(() => this.paramId().get('id') ?? this.order()?.id ?? 'SF-XXXXXX');

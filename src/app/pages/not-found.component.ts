@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TPipe } from '../core/lang.pipe';
 import { LogoComponent } from '../illustrations/logo.component';
+import { SeoService } from '../core/seo.service';
 
 @Component({
   selector: 'sf-not-found',
@@ -30,4 +31,12 @@ import { LogoComponent } from '../illustrations/logo.component';
     </main>
   `,
 })
-export class NotFoundComponent {}
+export class NotFoundComponent {
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Pagina non trovata',
+      description: "La pagina che cercavi non esiste, ma la tigre c'e' sempre.",
+      noIndex: true,
+    });
+  }
+}

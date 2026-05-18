@@ -4,6 +4,7 @@ import { CartService } from '../core/cart.service';
 import { TweaksService } from '../core/tweaks.service';
 import { PRODUCTS } from '../core/products';
 import { TPipe } from '../core/lang.pipe';
+import { SeoService } from '../core/seo.service';
 import { SunBurstComponent } from '../illustrations/sun-burst.component';
 import { LogoComponent } from '../illustrations/logo.component';
 import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component';
@@ -247,6 +248,16 @@ export class HomeComponent {
   tweaks = inject(TweaksService);
   cart = inject(CartService);
   private router = inject(Router);
+
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Suea Fai, Energy Tonic dal 1974',
+      description:
+        "Energy tonic thailandese in vetro ambrato dal 1974, non gassato e concentrato. Formula originale, importata in Italia. La tigre di fuoco dei mercati di Bangkok.",
+      path: '/',
+      asIs: true,
+    });
+  }
 
   products = PRODUCTS;
   timeline = [

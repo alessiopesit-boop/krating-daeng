@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CartService } from '../core/cart.service';
 import { PRODUCTS, fmtPrice } from '../core/products';
 import { TPipe } from '../core/lang.pipe';
+import { SeoService } from '../core/seo.service';
 
 interface FormatOpt { id: string; name: string; price: number; }
 
@@ -131,6 +132,17 @@ export class PdpComponent {
     // Sync the format selector with the URL-driven product so navigating from /shop
     // lands on the matching format chip instead of defaulting to "single".
     queueMicrotask(() => this.activeFormat.set(this.product().id));
+
+    // Aggiorna title + meta description quando cambia il prodotto.
+    const seo = inject(SeoService);
+    effect(() => {
+      const p = this.product();
+      seo.setPageMeta({
+        title: p.name,
+        description: `${p.desc} ${p.format}. ${fmtPrice(p.price)}, spedizione 48-72h.`,
+        path: `/#/product/${p.id}`,
+      });
+    });
   }
 
   dec() { this.qty.update((v) => Math.max(1, v - 1)); }
