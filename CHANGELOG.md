@@ -4,6 +4,22 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.1.0](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.0.2...v1.1.0) (2026-05-18)
+
+
+### Features
+
+* **footer:** pagine statiche del footer ([#18](https://github.com/alessiopesit-boop/krating-daeng/issues/18)) ([f67497c](https://github.com/alessiopesit-boop/krating-daeng/commit/f67497c67da00331fd02c55493fb5cd55d525f2a))
+* **nav:** rendi la nav effettivamente sticky in cima allo scroll ([#23](https://github.com/alessiopesit-boop/krating-daeng/issues/23)) ([26df598](https://github.com/alessiopesit-boop/krating-daeng/commit/26df5982f76ad2d9926aaa74c5028d584fd5f22a))
+* **seo:** meta tag SEO per ogni pagina ([#17](https://github.com/alessiopesit-boop/krating-daeng/issues/17)) ([55a2c46](https://github.com/alessiopesit-boop/krating-daeng/commit/55a2c46067bfe107aa927a691337bbad5514e1e6))
+
+
+### Bug Fixes
+
+* **home:** ingrandisci la bottiglia con callout su mobile ([#22](https://github.com/alessiopesit-boop/krating-daeng/issues/22)) ([f6be451](https://github.com/alessiopesit-boop/krating-daeng/commit/f6be45176f8cac6b5480335c2ed28bbd9ba4080d))
+* **pdp:** quantita' e aggiungi al carrello su due righe mobile ([#21](https://github.com/alessiopesit-boop/krating-daeng/issues/21)) ([34c63e6](https://github.com/alessiopesit-boop/krating-daeng/commit/34c63e6c42243d425f8c174ef5de410af77029e0))
+* **shop:** filtri mobile a wrap invece di scroll orizzontale ([#20](https://github.com/alessiopesit-boop/krating-daeng/issues/20)) ([1c6799b](https://github.com/alessiopesit-boop/krating-daeng/commit/1c6799b11886679d11a736b29a63b06cc2ceb05b))
+
 ## [1.0.2](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.0.1...v1.0.2) (2026-05-18)
 
 
