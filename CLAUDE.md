@@ -181,19 +181,26 @@ Schema [SemVer](https://semver.org): `MAJOR.MINOR.PATCH`. La fonte di verita' e'
 
 ### Rilascio: lo fa release-please, non tu
 
-Il rilascio e' completamente automatizzato dal workflow `.github/workflows/release.yml`, che usa [release-please](https://github.com/googleapis/release-please).
+Il rilascio e' completamente automatizzato dal workflow `.github/workflows/release.yml`, che usa [release-please](https://github.com/googleapis/release-please). Punto importante da tenere a mente: **la Release PR non la apri tu**, te la trovi gia' aperta dal bot. E **il numero di versione non lo scegli tu**, lo calcola il bot in base ai tipi dei commit accumulati dopo l'ultimo tag (`fix:` => PATCH, `feat:` => MINOR, `BREAKING CHANGE` => MAJOR).
 
 Cosa succede in pratica:
 
-1. Mergi su `main` un commit `feat:` o `fix:` (qualunque commit "rilasciabile").
-2. release-please apre **automaticamente** una PR speciale tipo `chore(main): release X.Y.Z` che contiene:
+1. Mergi su `main` un commit `feat:` o `fix:` (qualunque commit "rilasciabile" secondo Conventional Commits).
+2. Il workflow `release.yml` parte ad ogni push su `main`. release-please apre **automaticamente** una PR speciale tipo `chore(main): release X.Y.Z` che contiene:
    - bump di `package.json` e `.release-please-manifest.json`;
    - aggiornamento di `CHANGELOG.md` con i commit dell'ultimo ciclo, raggruppati per tipo (Features, Bug Fixes, ecc.).
-3. Quella PR resta aperta e si auto-aggiorna ogni volta che mergi su `main` un nuovo commit rilasciabile.
-4. Quando vuoi rilasciare, **mergi la Release PR**. Solo allora release-please:
+3. Quella Release PR **resta aperta** e **si auto-aggiorna** ogni volta che mergi su `main` un nuovo commit. Se il commit e' rilasciabile, viene incluso nelle note e (se serve) cambia il bump (es. da PATCH a MINOR). Se e' `chore:` / `docs:` / `ci:` / `test:` viene mergiato comunque su `main`, fara' parte del tag finale, ma non comparira' nelle release notes ne' influenzera' il numero di versione.
+4. **La tua unica decisione** e' quando rilasciare: quando ti sembra ci sia abbastanza materiale, mergi la Release PR. Solo allora release-please:
    - crea il tag git (`vX.Y.Z` con la `v`);
    - crea la GitHub Release;
    - lo step finale del workflow **riscrive il body della Release**: legge i commit del range, prende i body discorsivi (con fallback al subject ripulito se body assente), li raggruppa in sezioni (Novita', Correzioni, Performance, Refactor, Modifiche incompatibili) e sovrascrive il body iniziale generato da release-please. Risultato: una release "umana", senza subject letterali Conventional Commits.
+
+Cosa NON apparira' mai nella Release PR perche' release-please li ignora dal bumping:
+
+- `chore:`, `docs:`, `ci:`, `build:`, `style:`, `test:`, `refactor:` (eccezione: `refactor` appare comunque nelle note come "Refactor", ma non bumpa MAJOR).
+- I commit di release-please stesso (`chore(main): release X.Y.Z`).
+
+Quindi se mergi solo `chore:` / `docs:` la Release PR **non viene aperta**. Serve almeno un commit `fix:` / `feat:` / `perf:` da quando e' uscito l'ultimo tag.
 
 Cose che **non** devi fare a mano (rispetto a prima):
 
