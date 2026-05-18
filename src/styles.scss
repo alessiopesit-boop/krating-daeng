@@ -1932,7 +1932,7 @@ body {
 .nav-burger span.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-burger span.open:nth-child(2) { opacity: 0; }
 .nav-burger span.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: rgba(26,20,16,0.96); z-index: 99; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: rgba(26,20,16,0.96); z-index: 99; opacity: 0; pointer-events: none; transition: opacity 0.2s; overflow-y: auto; overscroll-behavior: contain; }
 .mobile-menu.open { opacity: 1; pointer-events: auto; }
 .mobile-menu-list { list-style: none; margin: 0; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
 .mobile-menu-list a { display: block; padding: 1rem 0.5rem; color: var(--cream); text-decoration: none; font-family: var(--font-display); text-transform: uppercase; font-size: 1.6rem; border-bottom: 1px solid rgba(248,239,214,0.12); }
