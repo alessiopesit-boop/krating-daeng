@@ -1,8 +1,12 @@
 name: Release please
 
+# workflow_dispatch utile quando vuoi "rilanciare" release-please senza un
+# nuovo commit (per esempio dopo aver aggiornato secret/PAT del repo: un rerun
+# dei run vecchi riusa i secret cached, mentre un nuovo run rilegge tutto).
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
