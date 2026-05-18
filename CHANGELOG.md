@@ -4,6 +4,15 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.0.2](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.0.1...v1.0.2) (2026-05-18)
+
+
+### Bug Fixes
+
+* **home:** layout mobile della homepage ([#10](https://github.com/alessiopesit-boop/krating-daeng/issues/10)) ([02e884b](https://github.com/alessiopesit-boop/krating-daeng/commit/02e884b33b34e4a41cbc2d5e373f19307d729693))
+* **release:** release notes con titoletti e propagazione deploy ([#8](https://github.com/alessiopesit-boop/krating-daeng/issues/8)) ([e9bc434](https://github.com/alessiopesit-boop/krating-daeng/commit/e9bc434fb8c4c561414e64d9ef5b6e5adbe29e04))
+* **shop:** layout mobile della pagina shop ([#11](https://github.com/alessiopesit-boop/krating-daeng/issues/11)) ([8b80706](https://github.com/alessiopesit-boop/krating-daeng/commit/8b807060c149ce46f4d7543ad271be74ddd03919))
+
 ## [1.0.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.0.0...v1.0.1) (2026-05-16)
 
 
