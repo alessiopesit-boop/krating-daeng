@@ -39,11 +39,11 @@ const EMPTY_FORM: CheckoutForm = {
     } @else {
       <main class="checkout-page">
         <div class="checkout-grid">
-          <div>
-            <div class="checkout-stepper">
-              <div class="checkout-step done"><span class="num">1</span>{{ 'Carrello' | t }}</div>
-              <div class="checkout-step active"><span class="num">2</span>{{ 'Spedizione & Pagamento' | t }}</div>
-              <div class="checkout-step"><span class="num">3</span>{{ 'Conferma' | t }}</div>
+          <div class="checkout-form-col">
+            <div class="checkout-stepper" aria-label="Stato ordine">
+              <div class="checkout-step done"><span class="num">1</span><span class="lbl">{{ 'Carrello' | t }}</span></div>
+              <div class="checkout-step active"><span class="num">2</span><span class="lbl">{{ 'Spedizione & Pagamento' | t }}</span></div>
+              <div class="checkout-step"><span class="num">3</span><span class="lbl">{{ 'Conferma' | t }}</span></div>
             </div>
 
             <div class="checkout-card">
@@ -160,16 +160,9 @@ const EMPTY_FORM: CheckoutForm = {
               }
             </div>
 
-            <button class="btn btn--red" style="width:100%;justify-content:center;padding:1.1rem" (click)="submit()" [disabled]="submitting()">
-              @if (submitting()) {
-                {{ 'Pagamento in corso…' | t }}
-              } @else {
-                {{ 'Paga ' | t }}{{ fmt(total()) }} →
-              }
-            </button>
           </div>
 
-          <aside>
+          <aside class="checkout-summary">
             <div class="summary-card">
               <h3>{{ 'Il tuo ordine' | t }}</h3>
               @for (l of cart.lines(); track l.id) {
@@ -194,6 +187,16 @@ const EMPTY_FORM: CheckoutForm = {
               </div>
             </div>
           </aside>
+
+          <div class="checkout-pay">
+            <button class="btn btn--red checkout-pay-btn" (click)="submit()" [disabled]="submitting()">
+              @if (submitting()) {
+                {{ 'Pagamento in corso…' | t }}
+              } @else {
+                {{ 'Paga ' | t }}{{ fmt(total()) }} →
+              }
+            </button>
+          </div>
         </div>
       </main>
     }
