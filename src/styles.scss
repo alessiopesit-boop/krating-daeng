@@ -489,7 +489,7 @@ body {
 .cart-line {
   display: grid;
   grid-template-columns: 72px 1fr auto;
-  gap: 1.2rem;
+  gap: 1.4rem;
   padding: 1.1rem 0;
   border-bottom: 1px dashed var(--paper-edge);
   align-items: center;
@@ -553,16 +553,17 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.6rem;
   margin-left: auto;
-  width: 28px; height: 28px;
+  padding: 0.4rem 0.7rem;
   background: var(--paper);
-  border: 1.5px solid var(--paper-edge);
+  border: 1.5px solid var(--ink-soft);
   color: var(--ink-soft);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   line-height: 1;
-  padding: 0;
   transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
 .cart-line-remove:hover {
@@ -1652,6 +1653,9 @@ body {
   border-top: 2px solid var(--ink);
   padding: 1.4rem 0;
   cursor: pointer;
+  /* iOS/Android applicano un overlay blu al tap su elementi cliccabili;
+     in questa sezione e' un lampo che non aggiunge nulla, lo disabilitiamo. */
+  -webkit-tap-highlight-color: transparent;
 }
 .faq-item:last-child { border-bottom: 2px solid var(--ink); }
 .faq-q {
@@ -2140,7 +2144,9 @@ html, body { overflow-x: clip; max-width: 100%; }
 
   /* Drawer */
   .drawer { width: 100% !important; max-width: 100%; }
-  .cart-line { grid-template-columns: 56px 1fr auto; gap: 0.7rem; }
+  .cart-line { grid-template-columns: 60px 1fr auto; gap: 1rem; }
+  .cart-line-img { width: 60px; height: 76px; }
+  .cart-line-remove { padding: 0.35rem 0.55rem; font-size: 0.62rem; }
 
   /* Confirm page: meno margini laterali, stamp piu' piccolo (e lasciato in
      alto), padding card ridotto cosi' i testi non wrappano stretti. */
