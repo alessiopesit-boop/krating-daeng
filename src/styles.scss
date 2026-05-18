@@ -1859,9 +1859,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
   /* Product section — hide callouts on small screens, they don't fit */
   .product-grid { gap: 2.5rem; }
-  .product-stage { min-height: 360px; }
+  .product-stage { min-height: 460px; }
   .bottle-with-callouts { max-width: 100%; }
-  .bottle-img { width: 65%; max-width: 240px; }
+  .bottle-img { width: 90%; max-width: 360px; }
   .callout { display: none !important; }
   .product-text h2 { font-size: clamp(2.2rem, 8vw, 3rem) !important; }
   .product-text p { font-size: 1rem; }
