@@ -1885,13 +1885,11 @@ html, body { overflow-x: hidden; max-width: 100%; }
     border-bottom: 2px solid var(--ink);
     padding: 0.6rem 0 0.9rem;
     display: flex;
-    flex-wrap: nowrap;
-    gap: 0.4rem;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
     align-items: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
-  .filter-block h5 { margin: 0; flex: 0 0 auto; padding-right: 0.4rem; }
+  .filter-block h5 { margin: 0; flex: 0 0 100%; padding-right: 0; padding-bottom: 0.2rem; }
   .filter-opt {
     flex: 0 0 auto;
     padding: 0.35rem 0.7rem;
