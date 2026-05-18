@@ -32,7 +32,7 @@ jobs:
       # (cioe' la Release PR e' stata mergiata in questo push).
       - name: Checkout (full history per leggere i body dei commit)
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
