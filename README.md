@@ -29,7 +29,7 @@ npm run build      # build di produzione in dist/
 npm test           # Karma + Jasmine
 ```
 
-Richiede Node 20+ e npm 10+.
+Richiede Node 22 LTS o superiore e npm 10+.
 
 ### Contribuire
 
@@ -60,7 +60,7 @@ npm run build      # production build into dist/
 npm test           # Karma + Jasmine
 ```
 
-Node 20+ and npm 10+ required.
+Node 22 LTS or newer and npm 10+ required.
 
 ### Contributing
 
