@@ -1612,6 +1612,79 @@ body {
   border: 4px solid var(--ink);
 }
 
+/* ===== Pagine statiche del footer (contatti, wholesale, privacy, ...) ===== */
+.static-page {
+  padding: 5rem 2rem 6rem;
+}
+.static-content {
+  max-width: 720px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.static-content h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin: 2.4rem 0 0.6rem;
+}
+.static-content p { margin: 0 0 1rem; }
+.static-content ul { margin: 0 0 1.2rem; padding-left: 1.4rem; }
+.static-content ul li { margin-bottom: 0.4rem; }
+.static-content a { color: var(--red); text-decoration: underline; }
+.static-content a:hover { color: var(--red-deep); }
+.static-content code {
+  background: var(--paper-deep);
+  border: 1px solid var(--paper-edge);
+  padding: 0.05rem 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.static-lead {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 2rem;
+}
+.contact-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(140px, max-content) 1fr;
+  gap: 0.5rem 1.4rem;
+}
+.contact-list dt {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  padding-top: 0.15rem;
+}
+.contact-list dd { margin: 0; color: var(--ink); }
+.ingredient-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.4rem;
+}
+.ingredient-table th,
+.ingredient-table td {
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--paper-edge);
+  font-size: 0.95rem;
+}
+.ingredient-table th { font-weight: 600; color: var(--ink); width: 60%; }
+.ingredient-table td { font-family: var(--font-mono); letter-spacing: 0.04em; }
+
+@media (max-width: 640px) {
+  .static-page { padding: 3rem 1rem 4rem; }
+  .static-lead { font-size: 1.02rem; }
+  .contact-list { grid-template-columns: minmax(0, 1fr); gap: 0.2rem 0; }
+  .contact-list dd { margin-bottom: 0.8rem; }
+}
+
 /* ===== 404 not found ===== */
 .not-found {
   min-height: 70vh;

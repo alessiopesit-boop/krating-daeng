@@ -45,17 +45,17 @@ import { APP_VERSION, BUILD_CONTEXT, BUILD_SHA } from '../core/build-info';
             <li><a routerLink="/storia">{{ 'La Storia' | t }}</a></li>
             <li><a routerLink="/muay-thai">{{ 'Muay Thai' | t }}</a></li>
             <li><a routerLink="/faq">{{ 'Domande' | t }}</a></li>
-            <li><a href="#">{{ 'Contatti' | t }}</a></li>
-            <li><a href="#">{{ 'Wholesale' | t }}</a></li>
+            <li><a routerLink="/contatti">{{ 'Contatti' | t }}</a></li>
+            <li><a routerLink="/wholesale">{{ 'Wholesale' | t }}</a></li>
           </ul>
         </div>
         <div>
           <h4>{{ 'Legal' | t }}</h4>
           <ul>
-            <li><a href="#">{{ 'Privacy' | t }}</a></li>
-            <li><a href="#">{{ 'Cookie' | t }}</a></li>
-            <li><a href="#">{{ 'Termini' | t }}</a></li>
-            <li><a href="#">{{ 'Ingredienti' | t }}</a></li>
+            <li><a routerLink="/privacy">{{ 'Privacy' | t }}</a></li>
+            <li><a routerLink="/cookie">{{ 'Cookie' | t }}</a></li>
+            <li><a routerLink="/termini">{{ 'Termini' | t }}</a></li>
+            <li><a routerLink="/ingredienti">{{ 'Ingredienti' | t }}</a></li>
           </ul>
         </div>
       </div>
