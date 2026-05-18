@@ -4,6 +4,19 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.3.0](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.2...v1.3.0) (2026-05-18)
+
+
+### Features
+
+* **footer:** layout a due colonne su mobile ([#40](https://github.com/alessiopesit-boop/krating-daeng/issues/40)) ([c9f0d96](https://github.com/alessiopesit-boop/krating-daeng/commit/c9f0d96d633c1a9d860e21a2bc7e6f4473b914d1))
+
+
+### Bug Fixes
+
+* **nav:** blocca lo scroll della pagina quando il menu mobile e' aperto ([#41](https://github.com/alessiopesit-boop/krating-daeng/issues/41)) ([58b2a08](https://github.com/alessiopesit-boop/krating-daeng/commit/58b2a08edc0459010e33ed8ce38ce86f872e03ed))
+* **ui:** carrello con piu' aria e pulsante "Rimuovi" leggibile, niente lampo blu sulle FAQ da mobile ([#39](https://github.com/alessiopesit-boop/krating-daeng/issues/39)) ([c4f2ed9](https://github.com/alessiopesit-boop/krating-daeng/commit/c4f2ed905eb7178e6223e9079ab3b82202bb3d2f))
+
 ## [1.2.2](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.1...v1.2.2) (2026-05-18)
 
 
