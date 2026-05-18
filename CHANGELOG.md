@@ -4,6 +4,13 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.2.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.0...v1.2.1) (2026-05-18)
+
+
+### Bug Fixes
+
+* **home:** drop cap solo sul paragrafo introduttivo ([#34](https://github.com/alessiopesit-boop/krating-daeng/issues/34)) ([86b1d3e](https://github.com/alessiopesit-boop/krating-daeng/commit/86b1d3e1dbb3509ff8313bac7011f2464e8ed97e))
+
 ## [1.2.0](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.1.1...v1.2.0) (2026-05-18)
 
 
