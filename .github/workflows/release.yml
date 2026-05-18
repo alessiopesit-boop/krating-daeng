@@ -28,15 +28,17 @@ jobs:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
-      # Da qui in poi: solo se release-please ha appena creato una Release
-      # (cioe' la Release PR e' stata mergiata in questo push).
+      # Checkout serve per leggere i body dei commit (per la Release pubblicata
+      # e/o per la Release PR aperta).
       - name: Checkout (full history per leggere i body dei commit)
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.release_created || steps.release.outputs.prs_created }}
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Riscrivi il body della GitHub Release con descrizioni discorsive
+      # ------- Branca A: Release appena pubblicata -------
+      # Riscrive il body della GitHub Release nello stile "In sintesi + Dettagli".
+      - name: Riscrivi il body della GitHub Release
         if: ${{ steps.release.outputs.release_created }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,159 +57,67 @@ jobs:
           fi
           echo "Range commit: ${RANGE}"
 
-          python3 - "$RANGE" <<'PY'
-          import json, os, re, subprocess, sys, urllib.request
+          NEW_BODY=$(python3 .github/scripts/release-notes.py --range "${RANGE}")
+          if [ -z "${NEW_BODY}" ]; then
+            echo "Nessuna voce da pubblicare, lascio il body di release-please."
+            exit 0
+          fi
 
-          rng = sys.argv[1]
-          raw = subprocess.check_output(
-              ["git", "log", "--format=%H%x00%s%x00%b%x1e", "--reverse", rng],
-              text=True,
-          )
+          # PATCH del body via API (gh release edit accetta solo --notes-file
+          # con percorso, e jq lo facciamo a mano: piu' semplice via curl).
+          tmp=$(mktemp)
+          printf '%s' "${NEW_BODY}" | jq -Rs '{body: .}' > "${tmp}"
+          curl --fail --silent --show-error \
+            -X PATCH \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/json" \
+            --data @"${tmp}" \
+            "https://api.github.com/repos/${REPO}/releases/${RELEASE_ID}" \
+            > /dev/null
+          echo "Release body riscritto."
 
-          # Tipi rilasciabili che appaiono nelle note, con etichetta del gruppo.
-          GROUPS = [
-              ("feat", "Novita'"),
-              ("fix", "Correzioni"),
-              ("perf", "Performance"),
-              ("refactor", "Refactor"),
-          ]
-          GROUP_BY_TYPE = dict(GROUPS)
+      # ------- Branca B: Release PR aperta o aggiornata -------
+      # release-please tiene aperta una "Release PR" tra una release e l'altra
+      # e la aggiorna ad ogni nuovo commit rilasciabile. Il suo template di
+      # default e' bullet-only in inglese (`:robot: I have created a release`).
+      # Qui lo sostituiamo con lo stesso stile "In sintesi + Dettagli" della
+      # Release finale, cosi' chi review la PR vede gia' le note discorsive.
+      - name: Riscrivi il body della Release PR
+        if: ${{ steps.release.outputs.prs_created }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_JSON: ${{ steps.release.outputs.pr }}
+        run: |
+          set -euo pipefail
+          git fetch --tags --quiet
 
-          subject_re = re.compile(
-              r"^(?P<type>[a-z]+)(?P<scope>\([^)]+\))?(?P<bang>!)?:\s*(?P<short>.+)$",
-              re.IGNORECASE,
-          )
+          PR_NUMBER=$(printf '%s' "${PR_JSON}" | jq -r '.number')
+          if [ -z "${PR_NUMBER}" ] || [ "${PR_NUMBER}" = "null" ]; then
+            echo "Nessun numero PR negli output di release-please, salto."
+            exit 0
+          fi
 
-          def unwrap_paragraphs(text):
-              """Trasforma i wrap "git-style" a 70 chars in paragrafi fluidi.
-              GitHub Flavored Markdown rende i newline singoli come <br>, quindi
-              senza unwrap ogni capoverso "spezzato" del commit diventa visibile
-              come riga corta. Qui collassiamo i singoli newline in spazi e
-              preserviamo solo i doppi newline (paragraph break).
-              """
-              text = text.strip()
-              if not text:
-                  return ""
-              # Marker temporaneo per i paragraph break (doppio newline o piu').
-              text = re.sub(r"\n[ \t]*\n+", "\x1f", text)
-              # Resto: ogni newline singolo diventa spazio.
-              text = re.sub(r"[ \t]*\n[ \t]*", " ", text)
-              # Collassa eventuali spazi consecutivi.
-              text = re.sub(r" {2,}", " ", text)
-              # Ripristina i paragraph break.
-              return text.replace("\x1f", "\n\n").strip()
+          LATEST_TAG=$(git tag --sort=-version:refname | head -1 || true)
+          if [ -z "${LATEST_TAG}" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="${LATEST_TAG}..HEAD"
+          fi
+          echo "Range commit (PR #${PR_NUMBER}): ${RANGE}"
 
-          def humanize(short_text):
-              """Capitalizza la prima lettera del subject ripulito."""
-              s = short_text.strip()
-              return s[0].upper() + s[1:] if s else ""
+          NOTES=$(python3 .github/scripts/release-notes.py --range "${RANGE}")
+          if [ -z "${NOTES}" ]; then
+            echo "Nessuna voce rilasciabile in questo range, salto."
+            exit 0
+          fi
 
-          # Per ogni gruppo (Novita', Correzioni, ...) conserviamo l'elenco
-          # ordinato di voci. Ogni voce e' (short_human, body_clean): il
-          # primo va nei bullet dell'indice, il secondo nel blocco Dettagli.
-          # I commit senza body finiscono solo nell'indice.
-          buckets = {label: [] for _, label in GROUPS}
-          breaking = []
+          # Footer informativo: la PR e' un'anteprima della GitHub Release.
+          PREV_LABEL="${LATEST_TAG:-(prima release)}"
+          FOOTER=$(printf '\n\n---\n\n_Release PR generata da release-please. Al merge: viene creato il tag e la GitHub Release, e il workflow ne riscrive il body in questo stesso stile. Confronto con `%s`: vedi i commit nei "Files changed" e "Commits" della PR._\n' "${PREV_LABEL}")
+          NEW_BODY="${NOTES}${FOOTER}"
 
-          for entry in raw.split("\x1e"):
-              entry = entry.lstrip("\n")
-              if not entry.strip():
-                  continue
-              parts = entry.split("\x00", 2)
-              if len(parts) < 3:
-                  continue
-              _sha, subject, body = parts
-              subject = subject.strip()
-              body = body.strip()
-              # Salta i commit di release-please.
-              if subject.lower().startswith("chore(main): release"):
-                  continue
-              m = subject_re.match(subject)
-              if not m:
-                  continue
-              ctype = m.group("type").lower()
-              short_human = humanize(m.group("short"))
-              if not short_human:
-                  continue
-
-              # Estrai eventuale BREAKING CHANGE dal body (trailer git).
-              body_lines = []
-              breaking_lines = []
-              for line in body.splitlines():
-                  if line.startswith("BREAKING CHANGE:"):
-                      breaking_lines.append(line.split(":", 1)[1].strip())
-                  else:
-                      body_lines.append(line)
-              body_clean = unwrap_paragraphs("\n".join(body_lines))
-
-              # Breaking change: salvato a parte, comparira' in cima alla
-              # sezione Dettagli, prima delle altre voci.
-              is_breaking = bool(m.group("bang")) or bool(breaking_lines)
-              if is_breaking:
-                  br_text = breaking_lines[0] if breaking_lines else body_clean or short_human
-                  breaking.append((short_human, br_text))
-
-              label = GROUP_BY_TYPE.get(ctype)
-              if label is not None:
-                  buckets[label].append((short_human, body_clean))
-
-          # Composizione delle release notes: "In sintesi" (bullet) + "Dettagli"
-          # (titoletti con body). La sezione Dettagli viene scritta solo se
-          # almeno una voce ha body; le voci senza body restano nell'indice.
-
-          sections = []
-
-          # ----- Indice -----
-          index_parts = []
-          if breaking:
-              index_parts.append(
-                  "**Modifiche incompatibili**\n"
-                  + "\n".join(f"- {sh}" for sh, _ in breaking)
-              )
-          for _t, label in GROUPS:
-              if buckets[label]:
-                  index_parts.append(
-                      f"**{label}**\n"
-                      + "\n".join(f"- {sh}" for sh, _ in buckets[label])
-                  )
-          if index_parts:
-              sections.append("## In sintesi\n\n" + "\n\n".join(index_parts))
-
-          # ----- Dettagli (solo per voci con body) -----
-          details_parts = []
-          if breaking:
-              for sh, br in breaking:
-                  if br and br != sh:
-                      details_parts.append(f"### {sh}\n\n{br}")
-          for _t, label in GROUPS:
-              for sh, body_clean in buckets[label]:
-                  if body_clean:
-                      details_parts.append(f"### {sh}\n\n{body_clean}")
-          if details_parts:
-              sections.append("## Dettagli\n\n" + "\n\n".join(details_parts))
-
-          if not sections:
-              print("Nessuna voce da pubblicare, lascio il body di release-please.")
-              sys.exit(0)
-
-          new_body = "\n\n---\n\n".join(sections).rstrip() + "\n"
-
-          repo = os.environ["REPO"]
-          rid = os.environ["RELEASE_ID"]
-          token = os.environ["GH_TOKEN"]
-          headers = {
-              "Authorization": f"Bearer {token}",
-              "Accept": "application/vnd.github+json",
-              "X-GitHub-Api-Version": "2022-11-28",
-              "Content-Type": "application/json",
-          }
-          patch = urllib.request.Request(
-              f"https://api.github.com/repos/{repo}/releases/{rid}",
-              data=json.dumps({"body": new_body}).encode(),
-              method="PATCH",
-              headers=headers,
-          )
-          urllib.request.urlopen(patch).read()
-          total = sum(len(v) for v in buckets.values())
-          print(f"Release body riscritto con {total} voci ({len(breaking)} breaking).")
-          PY
+          gh pr edit "${PR_NUMBER}" --repo "${REPO}" --body "${NEW_BODY}"
+          echo "Body della PR #${PR_NUMBER} aggiornato."
