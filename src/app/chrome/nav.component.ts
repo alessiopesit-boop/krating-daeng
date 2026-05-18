@@ -79,8 +79,45 @@ export class NavComponent {
       });
 
     effect(() => {
-      document.body.style.overflow = this.menuOpen() ? 'hidden' : '';
+      const open = this.menuOpen();
+      if (open === this.menuOpenPrev) return;
+      this.menuOpenPrev = open;
+      if (open) this.lockScroll();
+      else this.unlockScroll();
     });
+  }
+
+  /* Scroll lock per il menu burger:
+     `overflow: hidden` su body da solo non basta su iOS Safari (la pagina
+     puo' ancora essere trascinata col rubber-band). La tecnica robusta e'
+     congelare il body con `position: fixed` salvandone lo scroll offset,
+     poi ripristinarlo allo unlock. */
+  private menuOpenPrev = false;
+  private savedScrollY = 0;
+  private lockScroll() {
+    this.savedScrollY = window.scrollY;
+    const html = document.documentElement;
+    const body = document.body;
+    html.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${this.savedScrollY}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
+  }
+  private unlockScroll() {
+    const html = document.documentElement;
+    const body = document.body;
+    html.style.overflow = '';
+    body.style.position = '';
+    body.style.top = '';
+    body.style.left = '';
+    body.style.right = '';
+    body.style.width = '';
+    if (this.savedScrollY) {
+      window.scrollTo(0, this.savedScrollY);
+      this.savedScrollY = 0;
+    }
   }
 
   toggleMenu() {
