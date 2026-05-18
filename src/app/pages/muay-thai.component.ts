@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TPipe } from '../core/lang.pipe';
 import { MuayThaiSectionComponent } from '../shared/muay-thai-section.component';
 import { FighterComponent } from '../illustrations/fighter.component';
+import { SeoService } from '../core/seo.service';
 
 @Component({
   selector: 'sf-muay-thai-page',
@@ -40,4 +41,13 @@ import { FighterComponent } from '../illustrations/fighter.component';
     </main>
   `,
 })
-export class MuayThaiPageComponent {}
+export class MuayThaiPageComponent {
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Muay Thai Heritage',
+      description:
+        'Sponsor del ring dal 1976. Cartelloni in juta al Rajadamnern e al Lumpinee, il wai khru ram muay e il rapporto fra Suea Fai e le palestre Muay Thai.',
+      path: '/#/muay-thai',
+    });
+  }
+}

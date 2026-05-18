@@ -65,6 +65,7 @@ scripts/                  # script Node usati come npm hook (postinstall, presta
 - `CartService` (`core/cart.service.ts`): righe carrello con quantita', persistenza locale, totale derivato via signal.
 - `LangService` (`core/lang.service.ts`): switch `it`/`en`, dizionario `PHRASES`, metodo `t(itText)` con fallback all'originale e preservazione di whitespace ai bordi.
 - `TweaksService` (`core/tweaks.service.ts`): pannello di tweaks runtime per palette (`red`/`yellow`/`black`), presenza ornamenti thai (`heavy`/`light`/`off`), animazione hero (`rays`/`bulls`/`static`). Scrive `data-palette` e `data-thai` su `<html>`; gli stili globali reagiscono a quegli attributi.
+- `SeoService` (`core/seo.service.ts`): wrapper di `Title` + `Meta` di Angular. Ogni componente pagina nel costruttore chiama `setPageMeta({ title, description, path, ogImage?, noIndex?, asIs? })` per settare title del documento, meta description, OpenGraph e Twitter card. In `BUILD_CONTEXT === 'dev'` il title viene prefissato con `[dev] `. Per pagine non indicizzabili (checkout, conferma, 404) passare `noIndex: true`. PDP aggiorna i meta via `effect()` quando cambia il prodotto.
 
 ### Build info (dev vs release)
 

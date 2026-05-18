@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TPipe } from '../core/lang.pipe';
 import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component';
+import { SeoService } from '../core/seo.service';
 
 @Component({
   selector: 'sf-storia',
@@ -60,6 +61,15 @@ import { ThaiOrnamentComponent } from '../illustrations/thai-ornament.component'
   `,
 })
 export class StoriaComponent {
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'La storia',
+      description:
+        "Cinquant'anni di vetro. La storia di Suea Fai dal 1974, dai mercati di Yaowarat alle palestre Muay Thai. Una formula che si e' rifiutata di cambiare.",
+      path: '/#/storia',
+    });
+  }
+
   timeline = [
     { year: '1974', title: 'La prima formula',        body: 'In un retrobottega di Yaowarat nasce la prima bottiglia.' },
     { year: '1976', title: 'Sponsor del Rajadamnern', body: 'Cartelloni in juta nel ring più importante della Thailandia.' },

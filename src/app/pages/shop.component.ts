@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PRODUCTS } from '../core/products';
 import { ProductCardComponent } from '../shared/product-card.component';
 import { TigerBadgeComponent } from '../illustrations/tiger-badge.component';
 import { TPipe } from '../core/lang.pipe';
+import { SeoService } from '../core/seo.service';
 
 type Filter = 'all' | 'single' | 'multi' | 'bundle';
 type Sort = 'featured' | 'price-asc' | 'price-desc';
@@ -71,6 +72,15 @@ type Sort = 'featured' | 'price-asc' | 'price-desc';
 export class ShopComponent {
   readonly filter = signal<Filter>('all');
   readonly sort = signal<Sort>('featured');
+
+  constructor() {
+    inject(SeoService).setPageMeta({
+      title: 'Shop',
+      description:
+        'Bottiglia singola, pack da 6 e 12, bundle poster. Tutti i formati Suea Fai in vetro ambrato 150ml, spedizione in 48-72h dal magazzino di Milano.',
+      path: '/#/shop',
+    });
+  }
 
   filterOpts: Array<{ value: Filter; label: string }> = [
     { value: 'all',    label: 'Tutti' },
