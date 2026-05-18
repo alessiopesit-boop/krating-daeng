@@ -703,7 +703,7 @@ body {
    in italiano e' "N" di "Negli anni Settanta...", in inglese e' "I" di "In
    the seventies...". Prima era uno <span class="drop">N</span> hardcoded
    che produceva "Nin the seventies" passando alla lingua inglese. */
-.origins-body p:first-of-type::first-letter {
+.origins-body > p:first-of-type::first-letter {
   font-family: var(--font-display);
   font-size: 4rem;
   line-height: 0.7;
