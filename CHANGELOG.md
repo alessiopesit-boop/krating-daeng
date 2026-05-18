@@ -4,6 +4,13 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.2.2](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.1...v1.2.2) (2026-05-18)
+
+
+### Bug Fixes
+
+* **ui:** pass di ritocchi mobile e nuovo selettore lingua a tendina ([#37](https://github.com/alessiopesit-boop/krating-daeng/issues/37)) ([931d8d0](https://github.com/alessiopesit-boop/krating-daeng/commit/931d8d0d17e5c909597bb3d364c0f3620b1fb5ba))
+
 ## [1.2.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.0...v1.2.1) (2026-05-18)
 
 
