@@ -270,6 +270,74 @@ export const PHRASES: Record<string, string> = {
   'in vetro.': 'in glass.',
   storia: 'story',
 
+  // Static footer pages
+  'Per qualsiasi domanda su prodotti, ordini, formati o collaborazioni: scrivici. Rispondiamo entro un giorno lavorativo.':
+    'For any question about products, orders, formats or partnerships: drop us a line. We reply within one business day.',
+  'Email generale': 'General email',
+  'Ordini e spedizioni': 'Orders and shipping',
+  'Programma wholesale': 'Wholesale program',
+  'scheda dedicata': 'dedicated page',
+  Magazzino: 'Warehouse',
+  'Programma wholesale dedicato a bar, palestre Muay Thai, ristoranti thailandesi, negozi di gastronomia asiatica e specialty store.':
+    'Wholesale program for bars, Muay Thai gyms, Thai restaurants, Asian grocery stores and specialty shops.',
+  'Cosa offriamo': 'What we offer',
+  'Casse intere da 12 e 24 bottiglie, etichetta originale 1974.':
+    'Full crates of 12 or 24 bottles, original 1974 label.',
+  'Programma di vuoto a rendere: 0,15 € a bottiglia restituita pulita.':
+    'Bottle return program: 0.15 € per clean empty returned.',
+  'Listino dedicato in base ai volumi mensili.': 'Dedicated price list based on monthly volumes.',
+  'Spedizione da Milano in 48-72h sul territorio italiano.':
+    'Shipping from Milan in 48-72h across Italy.',
+  'Come iniziare': 'How to start',
+  'Scrivici a': 'Write to',
+  "con partita IVA, indirizzo di consegna e una stima dei volumi mensili. Rispondiamo con listino e minimi d'ordine entro un giorno lavorativo.":
+    "with your VAT number, delivery address and an estimate of monthly volumes. We reply with price list and minimum order within one business day.",
+  'Formula 1974, non gassata, in vetro ambrato da 150 ml. Senza alcol, senza conservanti aggiunti, senza coloranti artificiali.':
+    '1974 formula, uncarbonated, in 150 ml amber glass. No alcohol, no added preservatives, no artificial colors.',
+  'Composizione per bottiglia (150 ml)': 'Composition per bottle (150 ml)',
+  Acqua: 'Water',
+  'q.b.': 'as needed',
+  'Zucchero di canna grezzo': 'Raw cane sugar',
+  Inositolo: 'Inositol',
+  'Vitamina B3 (niacina)': 'Vitamin B3 (niacin)',
+  'Vitamina B6': 'Vitamin B6',
+  'Vitamina B12': 'Vitamin B12',
+  'Aromi naturali': 'Natural flavors',
+  "Vegano, vegetariano, senza glutine. La taurina utilizzata e' di sintesi farmaceutica. Sconsigliato a bambini, donne in gravidanza e a chi e' sensibile alla caffeina.":
+    'Vegan, vegetarian, gluten-free. Taurine is pharmaceutical synthetic. Not recommended for children, pregnant women and people sensitive to caffeine.',
+  "Suea Fai e' un progetto vetrina di natura dimostrativa. Questa pagina descrive in modo conciso che cosa il sito raccoglie e come.":
+    'Suea Fai is a demonstration showcase project. This page describes briefly what the site collects and how.',
+  'Cosa raccogliamo': 'What we collect',
+  "Il sito non ha backend ne' database: ogni interazione (carrello, lingua, preferenze) viene salvata esclusivamente nel localStorage del tuo browser e non lascia mai il tuo dispositivo. Nessun analytics di terze parti e' installato.":
+    "The site has no backend nor database: every interaction (cart, language, preferences) is stored only in your browser's localStorage and never leaves your device. No third-party analytics installed.",
+  'Dati di checkout': 'Checkout data',
+  "Il flusso di checkout e' una simulazione: i dati inseriti non vengono inviati a nessun server, non vengono salvati ne' usati per profilazione. Restano solo nella sessione del browser fino al refresh.":
+    "The checkout flow is a simulation: data is not sent to any server, nor stored, nor used for profiling. It only lives in the browser session until refresh.",
+  "Se ci scrivi a un nostro indirizzo email, conserviamo i messaggi per gestire la conversazione e per nessun altro scopo. Puoi chiedere la cancellazione in qualsiasi momento scrivendoci a":
+    "If you write to one of our email addresses, we keep messages only to handle the conversation. You can ask for deletion at any time by writing to",
+  'Questo sito non usa cookie di tracciamento ne\' di profilazione, e non installa cookie di terze parti.':
+    'This site uses no tracking or profiling cookies, and installs no third-party cookies.',
+  'Cosa salviamo nel browser': 'What we store in the browser',
+  'Usiamo solo localStorage, non cookie HTTP. Le chiavi che il sito scrive nel tuo browser sono:':
+    'We use only localStorage, no HTTP cookies. The keys the site writes in your browser are:',
+  ': contenuto del carrello e quantita\'.': ": cart contents and quantities.",
+  ': lingua scelta (it o en).': ': selected language (it or en).',
+  ': preferenze visive (palette, ornamenti thai, animazione hero) se mai sono state modificate.':
+    ': visual preferences (palette, Thai ornaments, hero animation) if ever changed.',
+  'Puoi cancellare tutto in qualsiasi momento svuotando localStorage del sito dalle impostazioni del browser. Nessuna preferenza viene replicata su server esterni.':
+    'You can clear everything anytime by emptying the site localStorage from your browser settings. No preference is replicated on external servers.',
+  "Termini di utilizzo del sito Suea Fai. Il sito e' una vetrina dimostrativa: il checkout e' una simulazione, nessun ordine reale viene processato.":
+    'Terms of use for the Suea Fai site. The site is a demonstration showcase: checkout is a simulation, no real order is processed.',
+  'Natura del sito': 'Nature of the site',
+  "Suea Fai (krating-daeng) e' un progetto open-source di vetrina, basato su un brand fittizio ispirato al tonico energetico thailandese del 1974. Tutti i contenuti, prezzi, immagini e descrizioni hanno scopo dimostrativo.":
+    'Suea Fai (krating-daeng) is an open-source showcase project, based on a fictional brand inspired by the Thai energy tonic from 1974. All content, prices, images and descriptions are for demonstration only.',
+  Acquisti: 'Purchases',
+  "Il flusso di checkout non addebita nulla a nessuna carta o conto: e' una simulazione che termina con una pagina di conferma fittizia. Nessun prodotto viene effettivamente spedito.":
+    'The checkout flow does not charge any card or account: it is a simulation that ends with a fictional confirmation page. No product is actually shipped.',
+  "Proprieta' intellettuale": 'Intellectual property',
+  "Il codice del sito e' rilasciato sotto licenza open-source. I marchi e i nomi citati appartengono ai rispettivi proprietari.":
+    'The site code is released under an open-source license. Trademarks and names mentioned belong to their respective owners.',
+
   // 404
   'Pagina non trovata': 'Page not found',
   'Questa pagina': 'This page',
