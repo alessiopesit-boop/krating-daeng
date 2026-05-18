@@ -295,6 +295,13 @@ body {
   background: var(--ink);
   color: var(--cream);
   border-bottom: 3px solid var(--yellow);
+  /* Quando la nav e' "incollata" in cima (scroll oltre la sua posizione
+     naturale), un ombra leggera aiuta a separarla visivamente dal contenuto
+     che le scorre sotto. Implementato con position-fallback via tricks CSS:
+     box-shadow trasparente nello stato "non staccato" e visibile quando lo
+     scroll fa toccare top: 0. Per ora, ombra sempre attiva: e' tenue e non
+     disturba ne' in cima ne' in scroll. */
+  box-shadow: 0 4px 12px rgba(26, 20, 16, 0.18);
 }
 .nav-inner {
   max-width: 1400px;
@@ -1774,7 +1781,11 @@ body {
 /* =========================================================
    Responsive — tablet (≤980px) and mobile (≤640px)
    ========================================================= */
-html, body { overflow-x: hidden; max-width: 100%; }
+/* overflow-x: clip (al posto del classico hidden) impedisce scroll
+   orizzontali indesiderati MA non rompe position: sticky della nav.
+   overflow: hidden su html/body crea un nuovo scrolling container che
+   "uccide" lo sticky. clip e' supportato in tutti i browser moderni. */
+html, body { overflow-x: clip; max-width: 100%; }
 
 @media (max-width: 980px) {
   .hero, .origins-grid, .product-grid, .pdp-grid, .checkout-grid, .shop-page-layout, .gym-feature, .ritual-feature {
