@@ -179,6 +179,18 @@ Strategia per le PR: **Squash and merge**.
 
 Quindi quando apri la PR cura titolo **e** descrizione: insieme diventano il commit, da cui release-please costruisce la release. La PR e' la fonte di verita'.
 
+### Pulizia branch dopo il merge
+
+Il branch **remoto** viene cancellato in automatico dal repo (setting `delete_branch_on_merge: true` gia' applicato). Lato **locale** invece i branch restano sulla tua macchina anche dopo che la PR e' stata mergiata. Ogni tanto vale la pena ripulire:
+
+```bash
+git fetch --prune                       # rimuove i tracking branch (origin/...) gia' scomparsi sul remoto
+git branch | grep -vE '^\*|main$' | xargs -r git branch -D
+                                        # cancella tutti i branch locali eccetto main e quello corrente
+```
+
+Il `-D` (maiuscolo) ignora il check "branch gia' mergiato": serve perche' lo squash merge non lascia una merge-base diretta, quindi `git branch -d` non li riconoscerebbe come mergiati.
+
 ### Setup repo: gia' applicato via API
 
 Le impostazioni del repo (merge strategy, commit message di default, auto-delete branch, branch protection su `main`, workflow permissions) **sono gia' state applicate** via API con un PAT fine-grained dell'account `alessiopesit-boop`. Stato corrente:
