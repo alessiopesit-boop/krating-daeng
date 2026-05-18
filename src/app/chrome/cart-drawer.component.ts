@@ -47,14 +47,13 @@ import { TigerBadgeComponent } from '../illustrations/tiger-badge.component';
                   <button (click)="cart.update(line.id, line.qty + 1)" aria-label="più">+</button>
                 </div>
               </div>
-              <div style="display:flex;flex-direction:column;align-items:flex-end">
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem">
                 <div class="cart-line-price">{{ fmt(line.product.price * line.qty) }}</div>
                 <button
                   class="cart-line-remove"
                   (click)="cart.remove(line.id)"
                   [attr.aria-label]="'Rimuovi' | t"
-                  [attr.title]="'Rimuovi' | t"
-                >✕</button>
+                >{{ 'Rimuovi' | t }}</button>
               </div>
             </div>
           }
