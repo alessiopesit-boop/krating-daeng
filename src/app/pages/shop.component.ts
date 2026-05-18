@@ -78,7 +78,7 @@ export class ShopComponent {
       title: 'Shop',
       description:
         'Bottiglia singola, pack da 6 e 12, bundle poster. Tutti i formati Suea Fai in vetro ambrato 150ml, spedizione in 48-72h dal magazzino di Milano.',
-      path: '/#/shop',
+      path: '/shop',
     });
   }
 

@@ -37,7 +37,7 @@ export class ContattiComponent {
     inject(SeoService).setPageMeta({
       title: 'Contatti',
       description: "Email, indirizzo del magazzino di Milano, contatto wholesale: come raggiungerci per ordini, formati e collaborazioni Suea Fai.",
-      path: '/#/contatti',
+      path: '/contatti',
     });
   }
 }

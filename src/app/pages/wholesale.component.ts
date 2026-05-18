@@ -40,7 +40,7 @@ export class WholesaleComponent {
     inject(SeoService).setPageMeta({
       title: 'Wholesale',
       description: "Programma wholesale Suea Fai per bar, palestre Muay Thai, ristoranti thai e specialty store. Casse intere, vuoto a rendere, spedizione 48-72h dal magazzino di Milano.",
-      path: '/#/wholesale',
+      path: '/wholesale',
     });
   }
 }

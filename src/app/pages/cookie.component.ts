@@ -39,7 +39,7 @@ export class CookieComponent {
     inject(SeoService).setPageMeta({
       title: 'Cookie',
       description: "Cookie policy di Suea Fai: nessun cookie di tracciamento o terze parti, solo localStorage per carrello, lingua e preferenze visive (chiavi sf-*).",
-      path: '/#/cookie',
+      path: '/cookie',
     });
   }
 }

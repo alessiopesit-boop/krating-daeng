@@ -31,7 +31,7 @@ export class FaqComponent {
       title: 'Domande frequenti',
       description:
         'Caffeina, taurina, vetro, spedizione, vuoto a rendere e programma wholesale: tutte le domande comuni su Suea Fai e sul suo tonico energetico thailandese.',
-      path: '/#/faq',
+      path: '/faq',
     });
   }
 }

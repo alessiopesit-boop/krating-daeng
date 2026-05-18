@@ -47,7 +47,7 @@ export class MuayThaiPageComponent {
       title: 'Muay Thai Heritage',
       description:
         'Sponsor del ring dal 1976. Cartelloni in juta al Rajadamnern e al Lumpinee, il wai khru ram muay e il rapporto fra Suea Fai e le palestre Muay Thai.',
-      path: '/#/muay-thai',
+      path: '/muay-thai',
     });
   }
 }
