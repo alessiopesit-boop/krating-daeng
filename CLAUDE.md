@@ -117,6 +117,8 @@ Tutti i commit (e i titoli delle PR) seguono [Conventional Commits](https://www.
 - Il **subject** e' la riga breve e tecnica, sempre nel formato `tipo(scope opzionale): cosa`. Serve a release-please per capire il tipo di cambio (bump version) e raggruppare nelle note. **Non appare letteralmente** nella GitHub Release.
 - Il **body** e' una **descrizione discorsiva breve**, di solito 1-3 frasi. **E' quello che apparira' nella GitHub Release**, sotto la sezione del tipo (Novita', Correzioni, ecc.). Scrivilo dal punto di vista di chi legge la release: cosa cambia per l'utente, cosa fa la modifica, quando serve saperlo. Niente jargon di file/funzioni a meno che non sia importante.
 
+**Niente hard-wrap a 72 caratteri** nel body. La vecchia convenzione "git da terminale" spezza le righe a 72 chars, ma GitHub Flavored Markdown rende ogni newline singolo come `<br>` nelle Release: le frasi appaiono spezzate a metà. Scrivi **una frase per riga lunga** (anche 200 chars, non importa), e separa i paragrafi con una **riga vuota**. Lo step Python nel workflow `release.yml` ha comunque un `unwrap_paragraphs()` che ricongiunge i wrap, ma e' un cerotto: meglio non spezzarle alla fonte.
+
 Tipi e mapping:
 
 | Tipo | Bump | Appare nella Release? | Etichetta |
@@ -131,27 +133,27 @@ Tipi e mapping:
 | `ci:`, `build:`, `style:` | nessuno | no | (storia git) |
 | `feat!:` o `BREAKING CHANGE:` nel body | MAJOR | si, in cima | Modifiche incompatibili |
 
-Esempio di commit per una nuova feature (caso tipico, raccomandato):
+Esempio di commit per una nuova feature (caso tipico, raccomandato). Le righe del body sono lunghe quanto serve, niente wrap a 72 chars:
 
 ```
 feat(home): aggiunta sezione testimonial
 
-Aggiunge una sezione testimonial sulla home con tre citazioni
-da palestre Muay Thai. Le immagini caricano in lazy load e il
-layout si adatta al mobile.
+Aggiunge una sezione testimonial sulla home con tre citazioni da palestre Muay Thai. Le immagini caricano in lazy load e il layout si adatta al mobile.
+
+Per i visitatori da Bangkok abbiamo tradotto le tre citazioni anche in thailandese, mostrato in piccolo sotto la versione italiana.
 ```
 
-Cosa esce nella GitHub Release:
+Notare: ogni paragrafo e' una riga lunga, paragrafi separati da una riga vuota. Cosa esce nella GitHub Release (il Markdown wrappa naturalmente alla larghezza della pagina):
 
 ```
 ## Novita'
 
-Aggiunge una sezione testimonial sulla home con tre citazioni
-da palestre Muay Thai. Le immagini caricano in lazy load e il
-layout si adatta al mobile.
+Aggiunge una sezione testimonial sulla home con tre citazioni da palestre Muay Thai. Le immagini caricano in lazy load e il layout si adatta al mobile.
+
+Per i visitatori da Bangkok abbiamo tradotto le tre citazioni anche in thailandese, mostrato in piccolo sotto la versione italiana.
 ```
 
-Notare: nessun `feat(home): aggiunta sezione testimonial` visibile.
+Niente `feat(home): aggiunta sezione testimonial` visibile, e niente righe spezzate a meta'.
 
 Body **consigliato sempre** per `feat:`, `fix:`, `perf:`, `refactor:`. Se proprio manca (cambio piccolissimo e ovvio), il workflow fa un fallback: usa il subject ripulito del prefisso e capitalizzato. Esempio: `fix(footer): typo nel copyright` senza body diventa nella Release "Typo nel copyright.". Funziona ma e' meno bello: meglio scrivere il body.
 
