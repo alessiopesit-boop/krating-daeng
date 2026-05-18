@@ -29,7 +29,7 @@ Niente backend: tutto in-memory, persistenza via `localStorage` per carrello, li
 
 - **Angular 19.2**, standalone components, `ChangeDetectionStrategy.OnPush` ovunque.
 - **Signals** (`signal`, `effect`) per stato reattivo. Niente NgRx, niente RxJS oltre a quello che serve al router.
-- **Routing**: `provideRouter` con `withHashLocation()` (URL con `#`, niente server config richiesta) e scroll restoration "top".
+- **Routing**: `provideRouter` con path location standard (no `#` nelle URL) e scroll restoration "top". Su GitHub Pages il refresh su una route deep funziona via `public/404.html`: quando Pages non trova il path sul filesystem serve il 404, che codifica l'URL richiesto in `sessionStorage` e fa redirect a `/krating-daeng/`. Lo script in `src/index.html` ripristina il path originale via `history.replaceState` prima del bootstrap Angular.
 - **Styling**: SCSS globale in `src/styles.scss` (file unico, ~44KB). I componenti usano template inline e classi globali, niente CSS scoped per componente. Variabili tema via `data-palette` e `data-thai` su `<html>` (vedi `TweaksService`).
 - **Build/test**: Angular CLI standard (`@angular-devkit/build-angular`), Karma + Jasmine per gli unit test.
 - **Niente lint configurato**, niente Prettier nel repo, niente Husky. Editor config in `.editorconfig`.
@@ -235,7 +235,7 @@ Cose da sapere se lo modifichi:
 
 - Il build di produzione viene fatto con `--base-href=/krating-daeng/`: lo richiede il fatto che il sito vive su un sottopath del dominio `*.github.io`. Se cambia il nome del repo, va aggiornato anche qui.
 - L'output di Angular 19 con builder `application` finisce in `dist/krating-daeng/browser/`: e' la cartella caricata come artifact Pages.
-- `public/404.html` contiene un piccolo redirect a `/krating-daeng/#/<path>` per garantire che URL inesistenti arrivino alla NotFoundComponent (Angular usa hash routing, ma Pages serve 404.html quando il path non esiste sul filesystem). Viene copiato automaticamente nel `dist/` come asset.
+- `public/404.html` e' il fallback SPA "rafgraph-style": GitHub Pages lo serve per qualunque path inesistente, lui salva `location.pathname + search + hash` in `sessionStorage.sf-redirect` e redireziona a `/krating-daeng/`. `src/index.html` legge quel valore prima del bootstrap Angular e ripristina l'URL via `history.replaceState`. Cosi' i deep link `/krating-daeng/shop` funzionano anche al refresh diretto. Viene copiato automaticamente nel `dist/` come asset.
 - `.nojekyll` viene creato dal workflow per impedire a Pages di processare i file via Jekyll.
 - Prima pubblicazione: in *Settings > Pages* del repo va scelto "Source: GitHub Actions" una volta sola.
 
@@ -243,7 +243,7 @@ Cose da sapere se lo modifichi:
 
 - **Non** introdurre RxJS observable per stato applicativo: usa signal/effect. RxJS resta ammesso solo dove serve a integrare API Angular che lo richiedono.
 - **Non** convertire a CSS scoped per componente senza un buon motivo: lo styling globale e' una scelta, non un'omissione.
-- **Non** togliere `withHashLocation()` senza configurare un fallback lato server, altrimenti il refresh su route diverse da `/` rompe in produzione statica.
+- **Non** rimuovere lo script SPA-fallback in `src/index.html` ne' lo script di `public/404.html` senza aver configurato un'alternativa al routing path-location: rompe il refresh diretto su route diverse da `/`.
 - **Non** committare `dist/`, `node_modules/`, `.angular/cache` (gia' in `.gitignore`).
 
 ## Quando aggiungi una pagina nuova

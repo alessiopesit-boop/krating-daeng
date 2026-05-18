@@ -140,7 +140,7 @@ export class PdpComponent {
       seo.setPageMeta({
         title: p.name,
         description: `${p.desc} ${p.format}. ${fmtPrice(p.price)}, spedizione 48-72h.`,
-        path: `/#/product/${p.id}`,
+        path: `/product/${p.id}`,
       });
     });
   }

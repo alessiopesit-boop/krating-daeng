@@ -5,18 +5,22 @@
   <title>Suea Fai</title>
   <meta name="robots" content="noindex">
   <script>
+    // SPA fallback per GitHub Pages con routing a path location (no #).
+    // Quando un URL non esiste sul filesystem (es. /krating-daeng/shop),
+    // Pages serve questo 404.html: noi salviamo il path originale in
+    // sessionStorage e redirezioniamo all'index.html. Lo script di
+    // ripristino in src/index.html lo riapplica via history.replaceState
+    // prima del bootstrap Angular.
     (function () {
       var BASE = '/krating-daeng/';
-      var url = new URL(window.location.href);
-      var path = url.pathname;
-      var rest = '';
-      if (path.indexOf(BASE) === 0) {
-        rest = path.slice(BASE.length);
-      } else if (path.startsWith('/')) {
-        rest = path.slice(1);
+      var path = location.pathname + location.search + location.hash;
+      // Path completo non-base, lo conserviamo.
+      try {
+        sessionStorage.setItem('sf-redirect', path);
+      } catch (e) {
+        // sessionStorage non disponibile: redirect "secco" alla home.
       }
-      var hash = rest ? '#/' + rest.replace(/^\/+/, '') : '';
-      window.location.replace(BASE + url.search + hash);
+      location.replace(BASE);
     })();
   </script>
 </head>

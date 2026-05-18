@@ -37,7 +37,7 @@ export class PrivacyComponent {
     inject(SeoService).setPageMeta({
       title: 'Privacy',
       description: "Informativa privacy di Suea Fai: nessun backend, nessun analytics di terze parti, dati di checkout e carrello solo nel browser tramite localStorage.",
-      path: '/#/privacy',
+      path: '/privacy',
     });
   }
 }

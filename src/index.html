@@ -10,6 +10,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@1&family=Mitr:wght@500;700&display=swap" rel="stylesheet">
+  <script>
+    // SPA fallback restore: se public/404.html ha salvato un path in
+    // sessionStorage prima di riportarci alla root, qui lo riapplichiamo
+    // via history.replaceState. In dev (ng serve) sessionStorage e' vuoto
+    // e questo blocco non fa nulla.
+    (function () {
+      try {
+        var redirect = sessionStorage.getItem('sf-redirect');
+        if (redirect) {
+          sessionStorage.removeItem('sf-redirect');
+          history.replaceState(null, '', redirect);
+        }
+      } catch (e) {
+        // sessionStorage non disponibile, accettiamo il path attuale.
+      }
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

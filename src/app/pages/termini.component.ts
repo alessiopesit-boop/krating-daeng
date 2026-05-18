@@ -37,7 +37,7 @@ export class TerminiComponent {
     inject(SeoService).setPageMeta({
       title: 'Termini',
       description: "Termini di utilizzo del sito vetrina Suea Fai: progetto dimostrativo open-source, checkout simulato, nessun ordine reale processato.",
-      path: '/#/termini',
+      path: '/termini',
     });
   }
 }

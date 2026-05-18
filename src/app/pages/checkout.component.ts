@@ -208,7 +208,7 @@ export class CheckoutComponent {
     inject(SeoService).setPageMeta({
       title: 'Checkout',
       description: 'Completa il tuo ordine Suea Fai.',
-      path: '/#/checkout',
+      path: '/checkout',
       noIndex: true,
     });
   }

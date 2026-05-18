@@ -44,7 +44,7 @@ export class IngredientiComponent {
     inject(SeoService).setPageMeta({
       title: 'Ingredienti',
       description: "Composizione del tonico energetico Suea Fai 150 ml: zucchero di canna, caffeina 50 mg, taurina 1000 mg, vitamine del gruppo B. Vegano, senza glutine, senza alcol.",
-      path: '/#/ingredienti',
+      path: '/ingredienti',
     });
   }
 }

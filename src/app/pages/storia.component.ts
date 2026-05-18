@@ -66,7 +66,7 @@ export class StoriaComponent {
       title: 'La storia',
       description:
         "Cinquant'anni di vetro. La storia di Suea Fai dal 1974, dai mercati di Yaowarat alle palestre Muay Thai. Una formula che si e' rifiutata di cambiare.",
-      path: '/#/storia',
+      path: '/storia',
     });
   }
 
