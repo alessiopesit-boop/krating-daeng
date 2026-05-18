@@ -102,6 +102,10 @@ jobs:
               s = short_text.strip()
               return s[0].upper() + s[1:] if s else ""
 
+          # Per ogni gruppo (Novita', Correzioni, ...) conserviamo l'elenco
+          # ordinato di voci. Ogni voce e' (short_human, body_clean): il
+          # primo va nei bullet dell'indice, il secondo nel blocco Dettagli.
+          # I commit senza body finiscono solo nell'indice.
           buckets = {label: [] for _, label in GROUPS}
           breaking = []
 
@@ -123,6 +127,8 @@ jobs:
                   continue
               ctype = m.group("type").lower()
               short_human = humanize(m.group("short"))
+              if not short_human:
+                  continue
 
               # Estrai eventuale BREAKING CHANGE dal body (trailer git).
               body_lines = []
@@ -134,46 +140,57 @@ jobs:
                       body_lines.append(line)
               body_clean = unwrap_paragraphs("\n".join(body_lines))
 
-              # Composizione della voce: titoletto "umano" + body discorsivo.
-              # Se manca uno dei due, ricadiamo sull'altro.
-              heading = f"### {short_human}" if short_human else ""
-              if heading and body_clean:
-                  voice = f"{heading}\n\n{body_clean}"
-              elif heading:
-                  voice = heading
-              elif body_clean:
-                  voice = body_clean
-              else:
-                  voice = ""
-
-              if not voice:
-                  continue
-
-              # Breaking change: in cima, oltre che nel gruppo originale.
+              # Breaking change: salvato a parte, comparira' in cima alla
+              # sezione Dettagli, prima delle altre voci.
               is_breaking = bool(m.group("bang")) or bool(breaking_lines)
               if is_breaking:
                   br_text = breaking_lines[0] if breaking_lines else body_clean or short_human
-                  if short_human and br_text != short_human:
-                      breaking.append(f"### {short_human}\n\n{br_text}")
-                  else:
-                      breaking.append(br_text)
+                  breaking.append((short_human, br_text))
 
               label = GROUP_BY_TYPE.get(ctype)
               if label is not None:
-                  buckets[label].append(voice)
+                  buckets[label].append((short_human, body_clean))
+
+          # Composizione delle release notes: "In sintesi" (bullet) + "Dettagli"
+          # (titoletti con body). La sezione Dettagli viene scritta solo se
+          # almeno una voce ha body; le voci senza body restano nell'indice.
 
           sections = []
+
+          # ----- Indice -----
+          index_parts = []
           if breaking:
-              sections.append("## Modifiche incompatibili\n\n" + "\n\n".join(breaking))
+              index_parts.append(
+                  "**Modifiche incompatibili**\n"
+                  + "\n".join(f"- {sh}" for sh, _ in breaking)
+              )
           for _t, label in GROUPS:
               if buckets[label]:
-                  sections.append(f"## {label}\n\n" + "\n\n".join(buckets[label]))
+                  index_parts.append(
+                      f"**{label}**\n"
+                      + "\n".join(f"- {sh}" for sh, _ in buckets[label])
+                  )
+          if index_parts:
+              sections.append("## In sintesi\n\n" + "\n\n".join(index_parts))
+
+          # ----- Dettagli (solo per voci con body) -----
+          details_parts = []
+          if breaking:
+              for sh, br in breaking:
+                  if br and br != sh:
+                      details_parts.append(f"### {sh}\n\n{br}")
+          for _t, label in GROUPS:
+              for sh, body_clean in buckets[label]:
+                  if body_clean:
+                      details_parts.append(f"### {sh}\n\n{body_clean}")
+          if details_parts:
+              sections.append("## Dettagli\n\n" + "\n\n".join(details_parts))
 
           if not sections:
               print("Nessuna voce da pubblicare, lascio il body di release-please.")
               sys.exit(0)
 
-          new_body = "\n\n".join(sections).rstrip() + "\n"
+          new_body = "\n\n---\n\n".join(sections).rstrip() + "\n"
 
           repo = os.environ["REPO"]
           rid = os.environ["RELEASE_ID"]
