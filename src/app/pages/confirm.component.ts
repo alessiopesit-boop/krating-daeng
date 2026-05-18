@@ -28,7 +28,7 @@ interface StoredOrder {
       <div class="confirm-card">
         <div class="stamp-big">{{ 'CONFERMATO' | t }}<br /><br />★ ★ ★</div>
         <sf-thai-ornament [width]="220" />
-        <div class="t-mono" style="margin-top:1.2rem;color:var(--red);letter-spacing:0.22em">{{ '★ ORDINE RICEVUTO' | t }}</div>
+        <div class="t-mono confirm-eyebrow">{{ '★ ORDINE RICEVUTO' | t }}</div>
         <h1>{{ 'La ' | t }}<span class="red">{{ 'tigre' | t }}</span><br />{{ 'è in viaggio.' | t }}</h1>
         <div class="order-id">{{ 'N° ' | t }}{{ orderId() }}</div>
 

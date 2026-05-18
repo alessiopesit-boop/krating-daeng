@@ -488,15 +488,15 @@ body {
 
 .cart-line {
   display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 1rem;
-  padding: 1rem 0;
+  grid-template-columns: 72px 1fr auto;
+  gap: 1.2rem;
+  padding: 1.1rem 0;
   border-bottom: 1px dashed var(--paper-edge);
   align-items: center;
 }
 .cart-line:last-child { border-bottom: none; }
 .cart-line-img {
-  width: 64px; height: 80px;
+  width: 72px; height: 88px;
   background: var(--ink);
   display: grid; place-items: center;
 }
@@ -506,6 +506,8 @@ body {
   font-size: 0.95rem;
   line-height: 1.1;
 }
+.cart-line-link { transition: color 0.15s ease; }
+.cart-line-link:hover { color: var(--red); }
 .cart-line-meta {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -517,41 +519,56 @@ body {
 .cart-line-qty {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.5rem;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.95rem;
+}
+.cart-line-qty span {
+  min-width: 1.6rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
 }
 .cart-line-qty button {
-  width: 22px; height: 22px;
-  border: 1.5px solid var(--ink);
+  width: 30px; height: 30px;
+  border: 2px solid var(--ink);
   background: var(--paper);
   cursor: pointer;
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
+  line-height: 1;
   display: grid; place-items: center;
   padding: 0;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
 }
 .cart-line-qty button:hover { background: var(--yellow); }
+.cart-line-qty button:active { transform: translate(1px, 1px); }
 .cart-line-price {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   text-align: right;
 }
 .cart-line-remove {
-  display: block;
-  margin-top: 0.4rem;
-  background: none;
-  border: none;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--red-deep);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.6rem;
+  margin-left: auto;
+  width: 28px; height: 28px;
+  background: var(--paper);
+  border: 1.5px solid var(--paper-edge);
+  color: var(--ink-soft);
   cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
   padding: 0;
-  text-align: right;
-  width: 100%;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.cart-line-remove:hover {
+  background: var(--red);
+  color: var(--cream);
+  border-color: var(--red);
 }
 
 .cart-empty {
@@ -578,11 +595,75 @@ body {
   margin-top: 0.4rem;
 }
 
-/* ===== Lang toggle ===== */
-.lang-toggle { display: inline-flex; gap: 2px; background: rgba(248,239,214,0.08); padding: 3px; border: 1px solid rgba(248,239,214,0.2); }
-.lang-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: none; padding: 4px 8px; color: var(--cream); opacity: 0.55; cursor: pointer; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.lang-btn:hover { opacity: 0.9; }
-.lang-btn.active { opacity: 1; background: var(--yellow); color: var(--ink); }
+/* ===== Lang toggle (dropdown) ===== */
+.lang-dd {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-mono);
+}
+.lang-dd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(248,239,214,0.08);
+  border: 1px solid rgba(248,239,214,0.25);
+  padding: 6px 10px;
+  color: var(--cream);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.lang-dd-trigger:hover { background: rgba(248,239,214,0.18); border-color: rgba(248,239,214,0.5); }
+.lang-dd.open .lang-dd-trigger { background: var(--yellow); color: var(--ink); border-color: var(--ink); }
+.lang-dd-flag {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid rgba(0,0,0,0.25);
+  flex: 0 0 auto;
+}
+.lang-dd-short { font-weight: 700; }
+.lang-dd-caret {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  transition: transform 0.15s ease;
+}
+.lang-dd.open .lang-dd-caret { transform: rotate(180deg); }
+.lang-dd-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 160px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--ink);
+  color: var(--cream);
+  border: 2px solid var(--yellow);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+  z-index: 110;
+}
+.lang-dd-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.lang-dd-item:hover { background: rgba(245,197,24,0.18); }
+.lang-dd-item.active { background: var(--yellow); color: var(--ink); }
+.lang-dd-label { flex: 1; }
+.lang-dd-tick { color: var(--red); }
+.lang-dd-item.active .lang-dd-tick { color: var(--ink); }
 
 /* ===== Page sections ===== */
 .section {
@@ -681,8 +762,7 @@ body {
   align-items: start;
 }
 .origins-aside {
-  position: sticky;
-  top: 100px;
+  position: static;
 }
 .origins-title {
   font-family: var(--font-display);
@@ -1293,40 +1373,67 @@ body {
 .checkout-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
+  grid-template-areas:
+    "form summary"
+    "pay  summary";
   gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
 }
+.checkout-form-col { grid-area: form; min-width: 0; }
+.checkout-summary  { grid-area: summary; min-width: 0; }
+.checkout-pay      { grid-area: pay; min-width: 0; }
+
+/* Stepper: tre cerchi numerati sopra una linea tratteggiata continua,
+   con label sotto il cerchio. Piu' "stampato vecchio" e leggibile dei
+   trattini separati. */
 .checkout-stepper {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0 0 2rem;
+  padding: 0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+/* Linea tratteggiata orizzontale che attraversa i tre cerchi, dietro */
+.checkout-stepper::before {
+  content: "";
+  position: absolute;
+  left: calc((100% / 6) + 14px);
+  right: calc((100% / 6) + 14px);
+  top: 14px;
+  height: 0;
+  border-top: 2px dashed var(--paper-edge);
+  z-index: 0;
+}
 .checkout-step {
+  position: relative;
+  z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  text-align: center;
   color: var(--ink-soft);
+  line-height: 1.1;
 }
 .checkout-step.active { color: var(--ink); }
-.checkout-step.done { color: var(--red); }
+.checkout-step.done   { color: var(--red); }
 .checkout-step .num {
-  width: 24px; height: 24px;
-  border: 1.5px solid currentColor;
+  width: 30px; height: 30px;
+  border: 2px solid currentColor;
   border-radius: 50%;
   display: grid; place-items: center;
-  font-size: 0.7rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  background: var(--paper);
 }
-.checkout-step.active .num { background: var(--ink); color: var(--cream); border-color: var(--ink); }
-.checkout-step.done .num { background: var(--red); color: var(--cream); border-color: var(--red); }
-.checkout-step + .checkout-step::before {
-  content: ""; width: 30px; height: 1.5px; background: var(--paper-edge);
-  margin-right: 0.5rem;
-}
+.checkout-step.active .num { background: var(--ink);  color: var(--cream); border-color: var(--ink); }
+.checkout-step.done   .num { background: var(--red);  color: var(--cream); border-color: var(--red); }
 
 .checkout-card {
   background: var(--cream);
@@ -1334,6 +1441,14 @@ body {
   padding: 2rem;
   margin-bottom: 1.5rem;
 }
+.checkout-pay { margin-top: -0.5rem; }
+.checkout-pay-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 1.1rem;
+  font-size: 1rem;
+}
+.checkout-pay-btn[disabled] { opacity: 0.65; cursor: not-allowed; }
 .checkout-card h3 {
   margin: 0 0 1.4rem;
   font-family: var(--font-display);
@@ -1403,6 +1518,8 @@ body {
   margin-left: auto;
   font-family: var(--font-display);
   font-size: 1.1rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .payment-tabs {
@@ -1411,15 +1528,18 @@ body {
   margin-bottom: 1.2rem;
 }
 .payment-tab {
-  flex: 1;
-  padding: 0.85rem 1rem;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.85rem 0.6rem;
   border: 2px solid var(--ink);
   background: var(--paper);
   font-family: var(--font-display);
   text-transform: uppercase;
   font-size: 0.85rem;
+  text-align: center;
   cursor: pointer;
   border-right: none;
+  white-space: nowrap;
 }
 .payment-tab:last-child { border-right: 2px solid var(--ink); }
 .payment-tab.active { background: var(--ink); color: var(--cream); }
@@ -1487,6 +1607,12 @@ body {
   transform: rotate(-12deg);
   letter-spacing: 0.06em;
 }
+.confirm-eyebrow {
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--red);
+  letter-spacing: 0.22em;
+}
 .confirm-card h1 {
   font-family: var(--font-display);
   text-transform: uppercase;
@@ -1540,15 +1666,22 @@ body {
 }
 .faq-item:hover .faq-q { color: var(--red); transform: translateX(4px); }
 .faq-q .toggle {
-  flex: 0 0 auto;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-display);
   font-size: 1.6rem;
   color: var(--red);
   line-height: 1;
   transition: transform 0.25s ease;
+  transform-origin: center center;
 }
 /* Il "+" ruota di 45deg quando la domanda e' aperta, diventando "x" visivo
-   senza cambiare il glyph nel template. */
+   senza cambiare il glyph nel template. Il box quadrato fisso assicura che
+   il glifo ruoti attorno al proprio centro senza sforare dal contenitore. */
 .faq-item.open .faq-q .toggle { transform: rotate(45deg); }
 /* Animazione apertura: grid 0fr a 1fr transitiona la dimensione reale del
    contenuto, niente max-height arbitrari. Il wrap a overflow hidden
@@ -1842,8 +1975,9 @@ html, body { overflow-x: clip; max-width: 100%; }
   .nav-brand span:last-child { font-size: 1.1rem; }
   .nav-actions { gap: 0.4rem; }
   .nav-cart-btn { min-width: 0 !important; padding: 0.55rem 0.7rem; font-size: 0.78rem; }
-  .lang-btn { padding: 4px 6px; font-size: 0.66rem; }
-  .lang-btn span { display: none; }
+  .lang-dd-trigger { padding: 5px 7px; gap: 0.35rem; font-size: 0.66rem; }
+  .lang-dd-short { display: none; }
+  .lang-dd-caret { font-size: 0.62rem; }
 
   /* Hero */
   .hero { padding: 2rem 1rem 2.5rem; }
@@ -1904,10 +2038,24 @@ html, body { overflow-x: clip; max-width: 100%; }
   /* Poster wall + shop */
   .poster-wall { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.8rem; }
   .shop-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.9rem; }
-  .product-card { padding: 0.8rem; }
   .product-card h3 { font-size: 0.95rem; }
-  .product-card .price { font-size: 1.05rem; }
   .product-card img { max-width: 100%; height: auto; }
+  .product-card-body { padding: 0.85rem 0.8rem 1rem; }
+  .product-card-name { font-size: 1rem; }
+  .product-card-meta { font-size: 0.65rem; }
+  /* Stack prezzo + bottone su mobile: a side-by-side il bottone "+ Carrello"
+     veniva tagliato e il prezzo wrappava dopo l'€. */
+  .product-card-foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    margin-top: 0.7rem;
+  }
+  .product-card-price {
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+  .product-card-foot .btn { width: 100%; justify-content: center; padding: 0.55rem 0.6rem; }
 
   /* Shop page: stack, sidebar diventa una "barra filtri" compatta sopra
      la griglia con i filtri come pill orizzontali scrollabili. */
@@ -1956,14 +2104,57 @@ html, body { overflow-x: clip; max-width: 100%; }
   .pdp-add { flex: 0 0 100%; width: 100%; }
 
   /* Checkout */
+  .checkout-page { padding: 2.2rem 0.9rem 4rem; }
+  .checkout-grid {
+    /* Su mobile: form, recap, pulsante paga. Cosi' "Paga" e' l'ultima
+       azione visibile, dopo aver letto il riepilogo. */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "form"
+      "summary"
+      "pay";
+    gap: 1.5rem;
+    padding: 0;
+  }
   .field-grid { grid-template-columns: minmax(0, 1fr); }
-  .checkout-card { padding: 1.2rem; }
-  .checkout-stepper { flex-wrap: wrap; gap: 0.4rem; font-size: 0.66rem; }
-  .checkout-step + .checkout-step::before { width: 16px; margin-right: 0.3rem; }
+  .checkout-card { padding: 1.1rem 1rem; margin-bottom: 1rem; }
+  .checkout-card h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+  /* Stepper mobile: compatto, label piu' piccola, niente cerchio enorme */
+  .checkout-stepper { gap: 0.3rem; font-size: 0.6rem; letter-spacing: 0.1em; margin-bottom: 1.4rem; }
+  .checkout-stepper::before { left: calc((100% / 6) + 11px); right: calc((100% / 6) + 11px); top: 11px; }
+  .checkout-step { gap: 0.3rem; }
+  .checkout-step .num { width: 24px; height: 24px; font-size: 0.72rem; }
+  /* Shipping/Payment: piu' compatti */
+  .shipping-opt { gap: 0.7rem; padding: 0.85rem 0.8rem; }
+  .shipping-opt .name { font-size: 0.92rem; }
+  .shipping-opt .desc { font-size: 0.66rem; }
+  .shipping-opt .price { font-size: 1rem; }
+  .payment-tab { padding: 0.7rem 0.4rem; font-size: 0.75rem; letter-spacing: 0.02em; }
+  /* Summary card su mobile: niente sticky, padding ridotto, line piu' compatte */
+  .summary-card { position: static; padding: 1rem 1rem 1.2rem; }
+  .summary-card h3 { font-size: 1.05rem; margin-bottom: 0.7rem; }
+  .summary-line { grid-template-columns: 44px 1fr auto; gap: 0.55rem; font-size: 0.82rem; padding: 0.45rem 0; }
+  .summary-line-img { width: 44px; height: 54px; }
+  .cart-totals { font-size: 0.82rem; }
+  .cart-totals .row--total { font-size: 1.2rem; }
 
   /* Drawer */
   .drawer { width: 100% !important; max-width: 100%; }
   .cart-line { grid-template-columns: 56px 1fr auto; gap: 0.7rem; }
+
+  /* Confirm page: meno margini laterali, stamp piu' piccolo (e lasciato in
+     alto), padding card ridotto cosi' i testi non wrappano stretti. */
+  .confirm-page { padding: 2rem 0.8rem 4rem; }
+  .confirm-card { padding: 3.4rem 1.1rem 2.2rem; }
+  .confirm-card .stamp-big {
+    top: 0.7rem; right: 0.7rem;
+    width: 78px; height: 78px;
+    font-size: 0.66rem;
+    border-width: 2px;
+  }
+  .confirm-eyebrow { font-size: 0.66rem; }
+  .confirm-card h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+  .confirm-card .order-id { font-size: 0.78rem; letter-spacing: 0.12em; word-break: break-all; }
 
   /* Footer */
   .footer-inner { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding: 2rem 1rem; }
