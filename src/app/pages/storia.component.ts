@@ -30,7 +30,7 @@ import { SeoService } from '../core/seo.service';
           </aside>
           <div class="origins-body">
             <p>
-              <span class="drop">L</span>{{ "a storia della Suea Fai è la storia di una formula che si è rifiutata di cambiare. Mentre il mondo passava al gas, all'alluminio, agli zuccheri sintetici e alle lattine slim, la nostra bottiglietta di vetro ambrato è rimasta uguale: 150ml, tappo a vite, tre fasce di colore, due tigri sul sole." | t }}
+              {{ "La storia della Suea Fai è la storia di una formula che si è rifiutata di cambiare. Mentre il mondo passava al gas, all'alluminio, agli zuccheri sintetici e alle lattine slim, la nostra bottiglietta di vetro ambrato è rimasta uguale: 150ml, tappo a vite, tre fasce di colore, due tigri sul sole." | t }}
             </p>
             <p>{{ "Quando alla fine degli anni '80 un imprenditore austriaco scoprì la categoria del tonico energetico thailandese in un viaggio a Bangkok, decise di adattarla al gusto occidentale: la diluì, la gassò, le fece imitare le bibite gassate americane. Da quella riformulazione nacquero le energy drink che conosciamo. Suea Fai non ha seguito quella strada. Non poteva. La densità, il vetro, la dolcezza — sono il punto." | t }}</p>
             <p>{{ 'Nel 2026 abbiamo deciso di portare la formula originale in Italia. Stesso tappo. Stesso vetro. Stessa etichetta del 1974 — ridisegnata solo nei caratteri minori per la conformità europea. Stessa ricetta thailandese, gli stessi ingredienti, lo stesso laboratorio di Yaowarat.' | t }}</p>
