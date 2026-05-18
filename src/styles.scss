@@ -698,7 +698,12 @@ body {
   line-height: 1.55;
   margin: 0 0 1.4rem;
 }
-.origins-body p .drop {
+/* Drop cap sul primo paragrafo del blocco testo. Implementato con
+   ::first-letter cosi' la prima lettera resta dentro la stringa tradotta:
+   in italiano e' "N" di "Negli anni Settanta...", in inglese e' "I" di "In
+   the seventies...". Prima era uno <span class="drop">N</span> hardcoded
+   che produceva "Nin the seventies" passando alla lingua inglese. */
+.origins-body p:first-of-type::first-letter {
   font-family: var(--font-display);
   font-size: 4rem;
   line-height: 0.7;

@@ -174,7 +174,7 @@ import { MuayThaiSectionComponent } from '../shared/muay-thai-section.component'
           </aside>
           <div class="origins-body">
             <p>
-              <span class="drop">N</span>{{ "egli anni Settanta Bangkok si svegliava prima dell'alba. Camionisti che scendevano dal nord con il riso, operai che entravano nelle fabbriche tessili di Pratunam, contadini che raggiungevano i mercati con le motocarrozzelle cariche di mango. La giornata cominciava in piedi, con dieci baht in tasca e dieci ore davanti." | t }}
+              {{ "Negli anni Settanta Bangkok si svegliava prima dell'alba. Camionisti che scendevano dal nord con il riso, operai che entravano nelle fabbriche tessili di Pratunam, contadini che raggiungevano i mercati con le motocarrozzelle cariche di mango. La giornata cominciava in piedi, con dieci baht in tasca e dieci ore davanti." | t }}
             </p>
             <p>
               <strong>Suea Fai</strong>
