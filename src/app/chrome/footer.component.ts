@@ -60,7 +60,7 @@ import { APP_VERSION, BUILD_CONTEXT, BUILD_SHA } from '../core/build-info';
         </div>
       </div>
       <div class="footer-base">
-        <span>© 1974—2026 Suea Fai · T.C. Pharmaceutical (fictional)</span>
+        <span>© 1974&ndash;{{ currentYear }} Suea Fai · T.C. Pharmaceutical (fictional)</span>
         <span>กระทิงไฟ · {{ 'Bangkok ↔ Milano' | t }} · {{ versionLabel }}</span>
       </div>
     </footer>
@@ -71,4 +71,5 @@ export class FooterComponent {
     BUILD_CONTEXT === 'dev'
       ? `v${APP_VERSION} · dev${BUILD_SHA ? ' · ' + BUILD_SHA : ''}`
       : `v${APP_VERSION}`;
+  readonly currentYear = new Date().getFullYear();
 }
