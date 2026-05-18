@@ -13,9 +13,11 @@ import { TPipe } from '../core/lang.pipe';
         <div class="faq-item" [class.open]="open() === i" (click)="toggle(i)">
           <div class="faq-q">
             <span>{{ it.q | t }}</span>
-            <span class="toggle">{{ open() === i ? '−' : '+' }}</span>
+            <span class="toggle" aria-hidden="true">+</span>
           </div>
-          <p class="faq-a">{{ it.a | t }}</p>
+          <div class="faq-a-wrap">
+            <p class="faq-a">{{ it.a | t }}</p>
+          </div>
         </div>
       }
     </div>

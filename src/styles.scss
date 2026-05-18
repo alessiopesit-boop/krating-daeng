@@ -1536,23 +1536,41 @@ body {
   text-transform: uppercase;
   font-size: 1.3rem;
   line-height: 1.1;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
+.faq-item:hover .faq-q { color: var(--red); transform: translateX(4px); }
 .faq-q .toggle {
   flex: 0 0 auto;
   font-family: var(--font-display);
   font-size: 1.6rem;
   color: var(--red);
   line-height: 1;
+  transition: transform 0.25s ease;
+}
+/* Il "+" ruota di 45deg quando la domanda e' aperta, diventando "x" visivo
+   senza cambiare il glyph nel template. */
+.faq-item.open .faq-q .toggle { transform: rotate(45deg); }
+/* Animazione apertura: grid 0fr a 1fr transitiona la dimensione reale del
+   contenuto, niente max-height arbitrari. Il wrap a overflow hidden
+   nasconde il body durante la transizione. */
+.faq-a-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease, margin-top 0.3s ease;
+  margin-top: 0;
+}
+.faq-a-wrap > * { overflow: hidden; }
+.faq-item.open .faq-a-wrap {
+  grid-template-rows: 1fr;
+  margin-top: 1rem;
 }
 .faq-a {
-  margin: 1rem 0 0;
+  margin: 0;
   max-width: 70ch;
   font-size: 1rem;
   line-height: 1.55;
   color: var(--ink-soft);
-  display: none;
 }
-.faq-item.open .faq-a { display: block; }
 
 /* ===== Page banners ===== */
 .page-banner {
