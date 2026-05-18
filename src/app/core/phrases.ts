@@ -13,7 +13,7 @@ export const PHRASES: Record<string, string> = {
   '★ Est. Bangkok 1974': '★ Est. Bangkok 1974',
   'Formula farmaceutica': 'Pharmaceutical Formula',
   'Prima delle lattine,': 'Before the cans,',
-  "c'era ": 'there was ',
+  "c'era": 'there was',
   'il vetro.': 'glass.',
   "Suea Fai. La tigre di fuoco. Energy tonic thailandese in vetro ambrato dal 1974 — non gassato, denso, dolce, concentrato come l'originale.":
     'Suea Fai. The fire tiger. Thai energy tonic in amber glass since 1974 — uncarbonated, thick, sweet, concentrated as the original.',
@@ -102,7 +102,7 @@ export const PHRASES: Record<string, string> = {
 
   // Muay Thai
   '★ Muay Thai Heritage': '★ Muay Thai Heritage',
-  'Sponsor del ': 'Sponsor of the ',
+  'Sponsor del': 'Sponsor of the',
   ring: 'ring',
   'dal 1976.': 'since 1976.',
   'Il logo dei due tigri che si caricano è nato per i cartelloni del Rajadamnern. Il marchio segue il combattente, mai il contrario.':
@@ -119,7 +119,7 @@ export const PHRASES: Record<string, string> = {
 
   // Shop section
   '★ Shop': '★ Shop',
-  'La ': 'The ',
+  'La': 'The',
   tigre: 'tiger',
   'a casa tua.': 'at your place.',
   "Spedizione in tutta Italia. Consegna in 48–72 ore. Pacchi imballati come si faceva nel '74.":
@@ -128,7 +128,7 @@ export const PHRASES: Record<string, string> = {
 
   // FAQ teaser
   '★ Domande': '★ Questions',
-  'È ': 'Is it ',
+  'È': 'Is it',
   diversa: 'different',
   'dalle bibite energetiche moderne?': 'from modern energy drinks?',
   'Tutte le domande →': 'All questions →',
@@ -149,7 +149,7 @@ export const PHRASES: Record<string, string> = {
   '+ Carrello': '+ Cart',
 
   // Shop page
-  'Tutti i ': 'All ',
+  'Tutti i': 'All',
   prodotti: 'products',
   'prodotti · spedizione 48–72h': 'products · 48–72h shipping',
   Tutti: 'All',
@@ -171,20 +171,17 @@ export const PHRASES: Record<string, string> = {
   'QTÀ': 'QTY',
   '1 Bottiglia': '1 Bottle',
   'Bundle Poster': 'Poster Bundle',
-  'Aggiungi · ': 'Add · ',
+  'Aggiungi ·': 'Add ·',
   'Formula 1974 originale': 'Original 1974 formula',
-  ' — caffeina 50mg, taurina 1000mg, vitamine B.': ' — caffeine 50mg, taurine 1000mg, B vitamins.',
+  '— caffeina 50mg, taurina 1000mg, vitamine B.': '— caffeine 50mg, taurine 1000mg, B vitamins.',
   'Vetro ambrato 150ml': 'Amber glass 150ml',
-  ' — riciclabile, vuoto a rendere sui pack interi.':
-    ' — recyclable, deposit refund on full packs.',
+  '— riciclabile, vuoto a rendere sui pack interi.': '— recyclable, deposit refund on full packs.',
   'Non gassata': 'Uncarbonated',
-  ' — densa, sciroposa, dolce. Come un tonico, non come una bibita.':
-    ' — thick, syrupy, sweet. Like a tonic, not a soda.',
+  '— densa, sciroposa, dolce. Come un tonico, non come una bibita.': '— thick, syrupy, sweet. Like a tonic, not a soda.',
   'Spedizione 48–72h': '48–72h shipping',
-  ' in Italia. Gratis sopra i 39€.': ' in Italy. Free over €39.',
+  'in Italia. Gratis sopra i 39€.': 'in Italy. Free over €39.',
   'Importata ufficialmente': 'Officially imported',
-  ' dal magazzino di Milano. Filiera tracciata.':
-    ' from our Milan warehouse. Traceable supply chain.',
+  'dal magazzino di Milano. Filiera tracciata.': 'from our Milan warehouse. Traceable supply chain.',
   '★ Note del laboratorio': '★ Lab notes',
   '"La densità è data dallo zucchero di canna non raffinato. Agita prima di bere — i sedimenti naturali della formula si depositano in fondo come nei tonici degli anni \'70."':
     '"The density comes from unrefined cane sugar. Shake before drinking — the natural sediments of the formula settle at the bottom, like in 70s tonics."',
@@ -226,15 +223,14 @@ export const PHRASES: Record<string, string> = {
     "You'll be redirected to PayPal to complete the payment.",
   "L'ordine verrà evaso al ricevimento del bonifico (1–2 giorni lavorativi).":
     'The order will be processed once the transfer is received (1–2 business days).',
-  'Paga ': 'Pay ',
+  'Paga': 'Pay',
   'Il tuo ordine': 'Your order',
   Subtotale: 'Subtotal',
   Totale: 'Total',
   GRATIS: 'FREE',
   'al checkout': 'at checkout',
   'Pacco eco': 'Eco package',
-  ' — cartone riciclato, paglia di riempimento, niente plastica. Vuoto a rendere sulle casse intere.':
-    ' — recycled cardboard, straw filler, no plastic. Deposit refund on full crates.',
+  '— cartone riciclato, paglia di riempimento, niente plastica. Vuoto a rendere sulle casse intere.': '— recycled cardboard, straw filler, no plastic. Deposit refund on full crates.',
   'Carrello vuoto': 'Empty cart',
   'Non puoi fare il checkout senza prodotti. La tigre ha bisogno di qualcosa per cui correre.':
     "You can't checkout without products. The tiger needs something to run for.",
@@ -254,7 +250,7 @@ export const PHRASES: Record<string, string> = {
   '★ ORDINE RICEVUTO': '★ ORDER RECEIVED',
   CONFERMATO: 'CONFIRMED',
   'è in viaggio.': 'is on its way.',
-  'N° ': 'No. ',
+  'N°': 'No.',
   'SPEDITO A': 'SHIPPED TO',
   RIEPILOGO: 'SUMMARY',
   "Riceverai un'email di conferma con il tracking entro un'ora.":
@@ -413,17 +409,17 @@ export const PHRASES: Record<string, string> = {
     'The bottle enters the Bangkok Museum of Design exhibit.',
   'Importazione ufficiale europea. Magazzino a Milano.':
     'Official European import. Warehouse in Milan.',
-  "Non è una ": "It's not a ",
+  "Non è una": "It's not a",
   'bibita.': 'soda.',
   'È uno strumento.': "It's a tool.",
   '— Da una targa nel laboratorio di Yaowarat': '— From a plaque in the Yaowarat lab',
 
   // Muay Thai page
   '★ Wai Khru Ram Muay': '★ Wai Khru Ram Muay',
-  'Il ': 'The ',
+  'Il': 'The',
   rituale: 'ritual',
   'prima del colpo.': 'before the strike.',
-  'Prima di ogni incontro il combattente esegue il ': 'Before every fight the fighter performs the ',
+  'Prima di ogni incontro il combattente esegue il': 'Before every fight the fighter performs the',
   ': una danza cerimoniale che onora i maestri, gli antenati e la propria scuola. È in quei minuti silenziosi — non durante il combattimento — che il Muay Thai diventa Muay Thai.':
     ': a ceremonial dance that honors the masters, ancestors and one\'s own school. It is in those silent minutes — not during the fight — that Muay Thai becomes Muay Thai.',
   'Suea Fai ha sponsorizzato per primi i cartelloni del wai khru, non solo gli incontri. Perché il rispetto viene prima della vittoria.':
