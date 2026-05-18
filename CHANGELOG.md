@@ -4,6 +4,20 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.2.0](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.1.1...v1.2.0) (2026-05-18)
+
+
+### Features
+
+* **faq:** hover sui titoli e animazione fluida dell'apertura ([#33](https://github.com/alessiopesit-boop/krating-daeng/issues/33)) ([6ee649b](https://github.com/alessiopesit-boop/krating-daeng/commit/6ee649b51903e4c332ee5b49196a18962f5c4d20))
+
+
+### Bug Fixes
+
+* **home:** didascalia delle sezioni Shop e Muay Thai sotto al titolo ([#31](https://github.com/alessiopesit-boop/krating-daeng/issues/31)) ([521459a](https://github.com/alessiopesit-boop/krating-daeng/commit/521459aa64a69240d138c4f7085cfd251389ca95))
+* **i18n:** drop cap che si sdoppia in lingua inglese ([#32](https://github.com/alessiopesit-boop/krating-daeng/issues/32)) ([05956c6](https://github.com/alessiopesit-boop/krating-daeng/commit/05956c65c1cdf1a2d5c8d118011d48d23a6c01d6))
+* **i18n:** traduzioni inglesi rotte per 17 frasi spezzate ([#29](https://github.com/alessiopesit-boop/krating-daeng/issues/29)) ([3863850](https://github.com/alessiopesit-boop/krating-daeng/commit/386385046e8860fd1d535011183401065c748584))
+
 ## [1.1.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.1.0...v1.1.1) (2026-05-18)
 
 
