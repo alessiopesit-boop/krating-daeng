@@ -4,6 +4,14 @@ Tutti i cambiamenti significativi a questo progetto sono documentati in questo f
 
 Il formato segue [Keep a Changelog](https://keepachangelog.com/it-IT/1.1.0/) e questo progetto adotta [Semantic Versioning](https://semver.org/lang/it/).
 
+## [1.3.1](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.3.0...v1.3.1) (2026-05-19)
+
+
+### Bug Fixes
+
+* **checkout:** regole di validazione campo per campo, auto-format del numero carta e della scadenza ([#47](https://github.com/alessiopesit-boop/krating-daeng/issues/47)) ([f38f724](https://github.com/alessiopesit-boop/krating-daeng/commit/f38f724839614e5c10f8695d71ae735f79384b61))
+* **checkout:** tab "Bank transfer" che sforava il box nei metodi di pagamento in inglese ([#45](https://github.com/alessiopesit-boop/krating-daeng/issues/45)) ([633c0ac](https://github.com/alessiopesit-boop/krating-daeng/commit/633c0ac09d26b77bb95620760db26c98c1398140))
+
 ## [1.3.0](https://github.com/alessiopesit-boop/krating-daeng/compare/v1.2.2...v1.3.0) (2026-05-18)
 
 
