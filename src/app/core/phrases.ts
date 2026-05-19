@@ -241,6 +241,19 @@ export const PHRASES: Record<string, string> = {
   'Numero non valido': 'Invalid number',
   'MM/AA': 'MM/YY',
   '3-4 cifre': '3-4 digits',
+  // Messaggi di validazione campi checkout
+  'Almeno 2 caratteri': 'At least 2 characters',
+  'Almeno 3 caratteri': 'At least 3 characters',
+  'Almeno 5 caratteri': 'At least 5 characters',
+  'Solo lettere, spazi, apostrofi o trattini': 'Letters, spaces, apostrophes or dashes only',
+  'CAP: 5 cifre': 'Postal code: 5 digits',
+  'Sigla provincia: 2 lettere (es. MI)': 'Province code: 2 letters (e.g. MI)',
+  'Telefono: almeno 8 cifre': 'Phone: at least 8 digits',
+  'Numero carta non valido': 'Invalid card number',
+  'Formato MM/AA': 'Format MM/YY',
+  'Mese non valido': 'Invalid month',
+  'Carta scaduta': 'Card expired',
+  'CVC: 3 o 4 cifre': 'CVC: 3 or 4 digits',
 
   // Stepper
   'Spedizione & Pagamento': 'Shipping & Payment',
